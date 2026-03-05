@@ -39,26 +39,7 @@ Add this to your project's `.claude/settings.json`:
 ### 3. Install the Skills
 
 ```bash
-mkdir -p .claude/commands
-
-curl -sL https://raw.githubusercontent.com/xseekio/claude-code-seo-geo-skills/main/aeo-audit.md \
-  -o .claude/commands/aeo-audit.md
-
-curl -sL https://raw.githubusercontent.com/xseekio/claude-code-seo-geo-skills/main/optimize-page.md \
-  -o .claude/commands/optimize-page.md
-
-curl -sL https://raw.githubusercontent.com/xseekio/claude-code-seo-geo-skills/main/track-visibility.md \
-  -o .claude/commands/track-visibility.md
-
-curl -sL https://raw.githubusercontent.com/xseekio/claude-code-seo-geo-skills/main/find-opportunities.md \
-  -o .claude/commands/find-opportunities.md
-```
-
-Or clone the entire repo:
-
-```bash
-git clone https://github.com/xseekio/claude-code-seo-geo-skills.git
-cp claude-code-seo-geo-skills/*.md .claude/commands/
+git clone https://github.com/xseekio/claude-code-seo-geo-skills.git ~/.claude/skills/seo-geo
 ```
 
 ### 4. Run a Skill
