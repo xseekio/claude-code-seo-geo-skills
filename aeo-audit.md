@@ -6,6 +6,9 @@ Run a comprehensive audit of a website's AI Engine Optimization (AEO) health. Th
 
 **AEO (AI Engine Optimization)** = optimizing content so AI models (ChatGPT, Claude, Perplexity) cite and recommend your brand. It's the AI equivalent of SEO.
 
+**GEO (Generative Engine Optimization)** = the research-backed framework. AI search engines don't rank pages — they **cite sources**. Princeton research identified 9 methods that increase citation rates (see optimize-page.md for the full table). When recommending fixes, reference these methods:
+- Cite Sources (+40%), Statistics (+37%), Quotations (+30%), Authoritative Tone (+25%), Easy-to-Understand (+20%), Technical Terms (+18%), Unique Words (+15%), Fluency (+15-30%). Keyword Stuffing hurts (-10%).
+
 **Key metrics to understand:**
 - **Leaderboard rank**: Your brand's share of voice vs competitors across AI responses. Rank #1 = most mentioned.
 - **AI citations (sources)**: URLs that AI models link as references. More citations = AI trusts your content.

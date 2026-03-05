@@ -84,15 +84,45 @@ You get a cross-referenced report with actionable recommendations
 - [xSeek](https://www.xseek.io) account with API key
 - A website tracked in xSeek with Google Search Console connected
 
-## What is AEO?
+## What is AEO / GEO?
 
 **AEO (AI Engine Optimization)** is optimizing content so AI models — ChatGPT, Claude, Perplexity, Gemini — cite and recommend your brand when users ask relevant questions. It's the AI search equivalent of SEO.
+
+**GEO (Generative Engine Optimization)** is the research-backed framework behind it. AI search engines don't rank pages — they **cite sources**. Being cited is the new "ranking #1".
 
 Key differences from traditional SEO:
 - AI models pull from web searches they run internally, not just Google's index
 - Citations (source URLs) matter more than rankings
 - Structured, direct answers get cited more than long-form content
 - Entity coverage (mentioning names, products, comparisons explicitly) drives mentions
+
+### Princeton GEO Methods
+
+The skills apply 9 research-backed optimization methods from Princeton's GEO research:
+
+| Method | Visibility Boost |
+|--------|-----------------|
+| Cite Sources | +40% |
+| Statistics Addition | +37% |
+| Quotation Addition | +30% |
+| Authoritative Tone | +25% |
+| Easy-to-Understand | +20% |
+| Technical Terms | +18% |
+| Unique Words | +15% |
+| Fluency Optimization | +15-30% |
+| ~~Keyword Stuffing~~ | **-10%** |
+
+The `/optimize-page` skill scores your content against each method and produces specific rewrite recommendations.
+
+### Platform-Specific Optimization
+
+Each AI engine has different ranking factors. The skills tailor recommendations per platform:
+
+- **ChatGPT** — Branded domains cited 11% more. Fresh content (< 30 days) gets 3.2x more citations.
+- **Perplexity** — FAQ Schema, PDF documents, and semantic relevance drive citations.
+- **Claude** — Uses Brave Search (not Google). Prefers high factual density and structural clarity.
+- **Google AI Overview** — E-E-A-T signals and structured data. Authoritative citations boost +132%.
+- **Microsoft Copilot** — Requires Bing indexing. Page speed < 2s. Microsoft ecosystem presence helps.
 
 ## License
 
