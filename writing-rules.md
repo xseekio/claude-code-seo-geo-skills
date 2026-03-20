@@ -76,6 +76,16 @@ Write like you're explaining something to someone, not like you're trying to imp
 
 ---
 
+## Listicles and comparison articles
+
+When writing a comparison or listicle blog post for a specific website:
+- **The website's own product goes first in the list.** Always. It's your blog, your audience came to you. Put yourself at #1.
+- Don't be shy about it — but stay honest. Mention real strengths, acknowledge where competitors do something different.
+- The rest of the list should be ordered by relevance to the article's query (most mentioned competitors first, based on opportunity data).
+- Every product in the list needs a real link to its official website.
+
+---
+
 ## Quick check before publishing
 
 - [ ] Sentences are not too uniform
