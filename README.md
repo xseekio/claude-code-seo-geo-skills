@@ -9,7 +9,7 @@ AI-powered content optimization skills for [Claude Code](https://claude.ai/claud
 | Skill | Command | What It Does |
 |-------|---------|-------------|
 | **AEO Audit** | `/aeo-audit` | Full AI visibility assessment. Pulls leaderboard rank, declining pages, search metrics, LLM queries, and AI citations. Outputs a prioritized action list. |
-| **Optimize Page** | `/optimize-page <url>` | Deep-dive on a single URL. Compares GSC queries vs LLM search queries, checks AI citations, runs AEO Copilot. Outputs specific rewrite recommendations. |
+| **Optimize Page** | `/optimize-page <url>` | Deep-dive on a single URL. Compares GSC queries vs LLM search queries, checks AI citations, runs keyword research. Outputs specific rewrite recommendations. |
 | **Track Visibility** | `/track-visibility` | AI visibility snapshot. Leaderboard position, top cited pages, prompt coverage, AI bot activity. Run weekly to track progress. |
 | **Find Opportunities** | `/find-opportunities` | Content gap finder. Uses pre-computed opportunities with ranking articles, competitor citations, and business value scoring. Cross-references with GSC data and LLM web searches. Outputs a content calendar. |
 | **Rewrite Page** | `/rewrite-page <url>` | Fetches a page, analyzes AI visibility gaps, and produces a full rewrite applying Princeton GEO methods (+40% citations), humanization rules, and answer-first structure. Outputs publish-ready markdown with a changes summary. |
@@ -58,7 +58,6 @@ The skills use the xSeek CLI to pull and cross-reference:
 - **AI Citations** — URLs that AI models link as references in their responses
 - **AI Bot Traffic** — GPTBot, ClaudeBot, PerplexityBot crawl logs per page
 - **Content Opportunities** — Pre-computed content gaps where your site isn't cited, with competitor ranking articles, business value scoring, and suggested content types
-- **AEO Copilot** — AI-powered page analysis with structural and schema recommendations
 
 ## How It Works
 
@@ -89,7 +88,6 @@ You get a cross-referenced report with actionable recommendations
 | `xseek sitemap-pages <website>` | Sitemap pages with AI + GSC data |
 | `xseek ai-visits <website>` | AI bot visit logs |
 | `xseek web-searches <website>` | LLM web searches |
-| `xseek analyze <website> <url>` | AEO Copilot page analysis |
 | `xseek keywords <website> "<topic>"` | Keyword research (volume, KD, related) |
 | `xseek brand-context <website>` | Brand voice, tone, and knowledge base |
 | `xseek articles list <website>` | List articles in Content Studio |

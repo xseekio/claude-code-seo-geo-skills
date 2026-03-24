@@ -12,7 +12,6 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
 2. Fetch the page content using a web fetch of the target URL to get the current HTML/text.
 
 3. Run these CLI calls in parallel (use `--format json` on all):
-   - `xseek analyze <website> <target_url>` — AEO Copilot structural analysis
    - `xseek search-queries <website> --url <target_url> --pageSize 50 --format json` — GSC queries driving traffic to this page
    - `xseek web-searches <website> --pageSize 100 --format json` — what LLMs actually search for
    - `xseek sources <website> --format json` — which pages AI currently cites
@@ -66,7 +65,7 @@ Use the results to:
    - Which LLM search queries are relevant to this page's topic but not addressed?
    - What GSC queries does the page rank for that could be answered more directly?
    - Is the page currently cited by AI? If not, why?
-   - What structural issues did the AEO Copilot flag?
+   - What structural issues exist (heading hierarchy, missing schema, etc.)?
 
 9. Rewrite the page content following ALL of the rules below. Ensure every product/tool/company mentioned includes at least one link to its official website and has verified pricing/features. **Verify against the GSC keyword checklist from step 5 — every keyword must appear in the rewrite.**
 

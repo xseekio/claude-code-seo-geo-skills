@@ -63,7 +63,6 @@ When writing rewrite recommendations, evaluate the page against these methods an
    - `xseek web-searches <website> --pageSize 100 --format json` — what queries LLMs search for
    - `xseek sources <website> --format json` — which of your pages AI cites
    - `xseek ai-visits <website> --search <url_path> --pageSize 50 --format json` — AI bot traffic to this page
-   - `xseek analyze <website> <target_url>` — AEO Copilot analysis
 
 3. **Keyword Research** — once you understand the page's topic from the data above, run keyword research to find related keywords with real search volume:
 
@@ -95,9 +94,6 @@ Top 10 queries with impressions and position.
 
 **LLM Search Queries (Gaps):**
 Queries that AI models search for that are relevant to this page's topic but the page doesn't rank for or explicitly address.
-
-**AEO Copilot Recommendations:**
-Summary of the analysis results.
 
 **GEO Method Scorecard:**
 Rate the page against each Princeton method (Pass / Needs Work / Missing):
