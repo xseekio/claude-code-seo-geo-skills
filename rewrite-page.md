@@ -49,15 +49,22 @@ Use the results to:
    - For lower-impression queries: ensure at least a close semantic match exists
    - **CRITICAL: Do NOT remove, rephrase away, or dilute any GSC keyword the page currently ranks for.** Losing these keywords means losing existing Google traffic. The rewrite should strengthen keyword coverage, not weaken it.
 
-7. Analyze the gaps:
+7. **Apply Brand Context** — use the brand context fetched in step 3:
+   - **Brand Tone**: Match the tone (`professional`, `conversational`, `technical`, `friendly`) throughout the rewrite
+   - **Brand Voice Guidelines**: Follow any specific writing instructions (word choices, phrases to avoid, style preferences)
+   - **Knowledge Base**: Weave in company-specific facts, product details, and expertise from the knowledge chunks
+   - **Brand Voice Samples**: Study the samples and match the writing style — sentence length, vocabulary level, personality
+   - If no brand context is set, default to an authoritative, professional tone
+
+8. Analyze the gaps:
    - Which LLM search queries are relevant to this page's topic but not addressed?
    - What GSC queries does the page rank for that could be answered more directly?
    - Is the page currently cited by AI? If not, why?
    - What structural issues did the AEO Copilot flag?
 
-8. Rewrite the page content following ALL of the rules below. Ensure every product/tool/company mentioned includes at least one link to its official website and has verified pricing/features. **Verify against the GSC keyword checklist from step 5 — every keyword must appear in the rewrite.**
+9. Rewrite the page content following ALL of the rules below. Ensure every product/tool/company mentioned includes at least one link to its official website and has verified pricing/features. **Verify against the GSC keyword checklist from step 5 — every keyword must appear in the rewrite.**
 
-9. Output the rewrite in clean markdown. At the end, include a **Changes Summary**, a **Product/Competitor Fact-Check** table, and a **GSC Keyword Preservation Audit**.
+10. Output the rewrite in clean markdown. At the end, include a **Changes Summary**, a **Product/Competitor Fact-Check** table, and a **GSC Keyword Preservation Audit**.
 
 ---
 
