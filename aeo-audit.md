@@ -17,13 +17,6 @@ Run a comprehensive audit of a website's AI Engine Optimization (AEO) health. Th
 - **LLM web searches**: The actual search queries AI models run when answering prompts. These are the keywords to target.
 - **Pages needing attention**: Pages where AI traffic dropped >20%. Urgent fixes.
 
-## Prerequisites
-
-The xSeek CLI must be installed and authenticated:
-```sh
-curl -fsSL https://cli.xseek.io/install.sh | sh
-xseek login your_api_key
-```
 
 ## Steps
 

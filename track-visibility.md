@@ -10,13 +10,6 @@ Generate a quick AI visibility snapshot: where you stand across AI search engine
 - **AI bot crawl volume** — how actively AI models index your content
 - **Prompt coverage** — what % of relevant prompts result in your brand being mentioned
 
-## Prerequisites
-
-The xSeek CLI must be installed and authenticated:
-```sh
-curl -fsSL https://cli.xseek.io/install.sh | sh
-xseek login your_api_key
-```
 
 ## Steps
 

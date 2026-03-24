@@ -8,13 +8,6 @@ Generate a new article targeting a content gap where your site isn't cited by AI
 
 The article is automatically pushed to Content Studio via `xseek articles push`. You can then view it with `xseek articles list` and publish it with `xseek articles publish`.
 
-## Prerequisites
-
-The xSeek CLI must be installed and authenticated:
-```sh
-curl -fsSL https://cli.xseek.io/install.sh | sh
-xseek login your_api_key
-```
 
 ## Steps
 

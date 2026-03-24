@@ -6,13 +6,6 @@ Generate a weekly performance report for a website covering AI traffic trends, b
 - `/weekly-report` — report for the default website
 - `/weekly-report <website>` — report for a specific website (domain or ID)
 
-## Prerequisites
-
-The xSeek CLI must be installed and authenticated:
-```sh
-curl -fsSL https://cli.xseek.io/install.sh | sh
-xseek login your_api_key
-```
 
 ## Steps
 

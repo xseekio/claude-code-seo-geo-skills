@@ -4,13 +4,6 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
 
 **Usage:** `/rewrite-page https://example.com/blog/my-article`
 
-## Prerequisites
-
-The xSeek CLI must be installed and authenticated:
-```sh
-curl -fsSL https://cli.xseek.io/install.sh | sh
-xseek login your_api_key
-```
 
 ## Steps
 

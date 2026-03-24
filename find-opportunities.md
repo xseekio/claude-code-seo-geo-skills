@@ -9,13 +9,6 @@ Discover content gaps: queries that AI models search for where you don't have co
 2. **Competitor citations** — URLs from competitor domains that AI cites. If they're cited for a topic you also cover, your content may need improvement. If it's a topic you don't cover, it's a new content opportunity.
 3. **GSC queries with no AI match** — Queries you rank for on Google that AI models never search for (or vice versa). The gap reveals where traditional SEO and AI optimization diverge.
 
-## Prerequisites
-
-The xSeek CLI must be installed and authenticated:
-```sh
-curl -fsSL https://cli.xseek.io/install.sh | sh
-xseek login your_api_key
-```
 
 ## Steps
 
