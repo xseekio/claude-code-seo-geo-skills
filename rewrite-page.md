@@ -50,6 +50,12 @@ Use the results to:
    - **CRITICAL: Do NOT remove, rephrase away, or dilute any GSC keyword the page currently ranks for.** Losing these keywords means losing existing Google traffic. The rewrite should strengthen keyword coverage, not weaken it.
 
 7. **Apply Brand Context** — use the brand context fetched in step 3:
+   - **ICP (Ideal Customer Profile)**: Write for the target audience defined in the ICP:
+     - Use vocabulary and terminology the `targetAudience` understands
+     - Address the specific `painPoints` — the rewrite should resonate with someone experiencing these problems
+     - Match the `industry` context — use industry-specific examples and references
+     - Consider the `buyerRole` — adapt the level of detail and framing accordingly
+     - Frame the `useCase` naturally within the content
    - **Brand Tone**: Match the tone (`professional`, `conversational`, `technical`, `friendly`) throughout the rewrite
    - **Brand Voice Guidelines**: Follow any specific writing instructions (word choices, phrases to avoid, style preferences)
    - **Knowledge Base**: Weave in company-specific facts, product details, and expertise from the knowledge chunks

@@ -93,6 +93,12 @@ This returns search volume, keyword difficulty, and related keywords from Google
    - Avoid keywords with KD > 80 as primary targets unless the site has strong domain authority
 
 10. **Apply Brand Context** — use the brand context fetched in step 2:
+   - **ICP (Ideal Customer Profile)**: This is critical — write for the target audience defined in the ICP:
+     - Use vocabulary and terminology the `targetAudience` understands (technical for developers, business for executives, etc.)
+     - Address the specific `painPoints` — the article should feel like it was written for someone experiencing these exact problems
+     - Match the `industry` context — use industry-specific examples, metrics, and references
+     - Consider the `buyerRole` — a CTO reads differently than a marketing manager
+     - Frame the `useCase` as the natural solution within the article
    - **Brand Tone**: Match the tone (`professional`, `conversational`, `technical`, `friendly`) throughout the article
    - **Brand Voice Guidelines**: Follow any specific writing instructions (word choices, phrases to avoid, style preferences)
    - **Knowledge Base**: Weave in company-specific facts, product details, and expertise from the knowledge chunks. This is proprietary information the brand wants highlighted.
