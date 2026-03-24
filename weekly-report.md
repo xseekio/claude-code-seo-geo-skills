@@ -11,7 +11,7 @@ Generate a weekly performance report for a website covering AI traffic trends, b
 The xSeek CLI must be installed and authenticated:
 ```sh
 curl -fsSL https://cli.xseek.io/install.sh | sh
-export XSEEK_API_KEY=your_api_key
+xseek login your_api_key
 ```
 
 ## Steps

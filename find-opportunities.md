@@ -14,7 +14,7 @@ Discover content gaps: queries that AI models search for where you don't have co
 The xSeek CLI must be installed and authenticated:
 ```sh
 curl -fsSL https://cli.xseek.io/install.sh | sh
-export XSEEK_API_KEY=your_api_key
+xseek login your_api_key
 ```
 
 ## Steps

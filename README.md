@@ -23,20 +23,18 @@ AI-powered content optimization skills for [Claude Code](https://claude.ai/claud
 curl -fsSL https://cli.xseek.io/install.sh | sh
 ```
 
-### 2. Set Your API Key
+### 2. Authenticate
 
 Sign up at [xseek.io](https://www.xseek.io/login) and generate an API key from Settings.
 
 ```sh
-export XSEEK_API_KEY=your_api_key
+xseek login your_api_key
 ```
-
-Add this to your shell profile (`~/.zshrc` or `~/.bashrc`) to persist it.
 
 ### 3. Install the Skills
 
-```bash
-git clone https://github.com/xseekio/claude-code-seo-geo-skills.git ~/.claude/skills/seo-geo
+```sh
+xseek init
 ```
 
 ### 4. Run a Skill
