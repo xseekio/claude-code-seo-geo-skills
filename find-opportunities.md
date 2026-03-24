@@ -39,7 +39,15 @@ Discover content gaps: queries that AI models search for where you don't have co
    - Find GSC queries with NO LLM equivalent (Google traffic only)
    - Find LLM queries with NO GSC equivalent (AI-only opportunity)
 
-4. Produce a report:
+4. **Keyword Research** — for the top 3-5 highest-value opportunities, run keyword research to enrich the content calendar:
+
+```sh
+xseek keywords <website> "<opportunity query 1>,<opportunity query 2>,<opportunity query 3>" --format json
+```
+
+This adds real Google search volume and related keywords to each opportunity, making the content calendar actionable with specific keyword targets.
+
+5. Produce a report:
 
 ### Report structure
 

@@ -65,12 +65,23 @@ When writing rewrite recommendations, evaluate the page against these methods an
    - `xseek ai-visits <website> --search <url_path> --pageSize 50 --format json` — AI bot traffic to this page
    - `xseek analyze <website> <target_url>` — AEO Copilot analysis
 
-3. Cross-reference the data:
+3. **Keyword Research** — once you understand the page's topic from the data above, run keyword research to find related keywords with real search volume:
+
+```sh
+xseek keywords <website> "<page topic or main GSC query>" --format json
+```
+
+Use the results to:
+   - Identify high-volume keywords the page should target but doesn't mention
+   - Find low-KD keyword opportunities that are easy wins
+   - Add missing related keywords to the rewrite recommendations
+
+4. Cross-reference the data:
    - **GSC queries vs LLM queries**: Find queries where this page ranks on Google but AI models search for different terms. These are keyword gaps.
    - **Citation check**: Is this page currently cited by AI? How often vs competitor pages on the same topic?
    - **Bot access check**: Are AI bots actually visiting this page? If not, check robots.txt.
 
-4. Produce a report:
+5. Produce a report:
 
 ### Report structure
 

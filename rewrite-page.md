@@ -17,8 +17,21 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
    - `xseek web-searches <website> --pageSize 100 --format json` — what LLMs actually search for
    - `xseek sources <website> --format json` — which pages AI currently cites
    - `xseek ai-visits <website> --search <url_path> --pageSize 20 --format json` — AI bot traffic to this page
+   - `xseek brand-context <website> --format json` — brand voice, tone, and knowledge base
 
-4. **Validate any products, tools, or companies mentioned in the original page:**
+4. **Keyword Research** — based on the page topic and top GSC queries, run keyword research:
+
+```sh
+xseek keywords <website> "<page main topic>" --format json
+```
+
+Use the results to:
+   - Find high-volume related keywords to weave into the rewrite headings and body
+   - Identify keywords competitors rank for that the page is missing
+   - Target low-KD keywords in the FAQ section for quick wins
+   - Ensure the rewrite covers the full keyword cluster, not just the primary term
+
+5. **Validate any products, tools, or companies mentioned in the original page:**
    - Fetch each product's official website (homepage or pricing page) using web fetch
    - Verify pricing: exact plan names, prices, billing terms. Never keep unverified pricing claims.
    - Verify features: confirm core feature claims match what the product actually offers
@@ -28,7 +41,7 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
    - If a website is unreachable, use web search to find current info
    - **Rules:** Every product mentioned MUST get at least one outbound link. Never write pricing without verifying. If unverifiable, write "pricing on their website" with a link.
 
-5. **Build the GSC keyword preservation list:**
+6. **Build the GSC keyword preservation list:**
    - From the GSC queries data (step 3), extract EVERY query this page currently ranks for
    - Sort by impressions (highest first) — these are the keywords driving organic traffic
    - Create a checklist of these keywords. The rewrite MUST preserve all of them.
@@ -36,15 +49,15 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
    - For lower-impression queries: ensure at least a close semantic match exists
    - **CRITICAL: Do NOT remove, rephrase away, or dilute any GSC keyword the page currently ranks for.** Losing these keywords means losing existing Google traffic. The rewrite should strengthen keyword coverage, not weaken it.
 
-6. Analyze the gaps:
+7. Analyze the gaps:
    - Which LLM search queries are relevant to this page's topic but not addressed?
    - What GSC queries does the page rank for that could be answered more directly?
    - Is the page currently cited by AI? If not, why?
    - What structural issues did the AEO Copilot flag?
 
-7. Rewrite the page content following ALL of the rules below. Ensure every product/tool/company mentioned includes at least one link to its official website and has verified pricing/features. **Verify against the GSC keyword checklist from step 5 — every keyword must appear in the rewrite.**
+8. Rewrite the page content following ALL of the rules below. Ensure every product/tool/company mentioned includes at least one link to its official website and has verified pricing/features. **Verify against the GSC keyword checklist from step 5 — every keyword must appear in the rewrite.**
 
-8. Output the rewrite in clean markdown. At the end, include a **Changes Summary**, a **Product/Competitor Fact-Check** table, and a **GSC Keyword Preservation Audit**.
+9. Output the rewrite in clean markdown. At the end, include a **Changes Summary**, a **Product/Competitor Fact-Check** table, and a **GSC Keyword Preservation Audit**.
 
 ---
 
