@@ -80,14 +80,26 @@ The article is automatically pushed to Content Studio via `xseek articles push`.
 
 ### Phase 3: Write the Article
 
-9. **Apply Brand Context** — use the brand context fetched in step 2:
+9. **Keyword Research** — once the topic is confirmed, run keyword research:
+
+```sh
+xseek keywords <website> "<selected opportunity query>" --format json
+```
+
+This returns search volume, keyword difficulty, and related keywords from Google. Use these to:
+   - Pick the primary keyword (highest volume, reasonable KD) for the H1 and first paragraph
+   - Use top related keywords as H2 headings and FAQ questions
+   - Weave medium-tail keywords naturally into the body
+   - Avoid keywords with KD > 80 as primary targets unless the site has strong domain authority
+
+10. **Apply Brand Context** — use the brand context fetched in step 2:
    - **Brand Tone**: Match the tone (`professional`, `conversational`, `technical`, `friendly`) throughout the article
    - **Brand Voice Guidelines**: Follow any specific writing instructions (word choices, phrases to avoid, style preferences)
    - **Knowledge Base**: Weave in company-specific facts, product details, and expertise from the knowledge chunks. This is proprietary information the brand wants highlighted.
    - **Brand Voice Samples**: Study the samples and match the writing style — sentence length, vocabulary level, personality
    - If no brand context is set, default to an authoritative, professional tone
 
-10. Write a new article that:
+11. Write a new article that:
 
 **Beats the competition by:**
 - Covering every subtopic the top 3 articles cover, plus gaps they miss

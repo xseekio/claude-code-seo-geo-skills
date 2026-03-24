@@ -90,6 +90,7 @@ You get a cross-referenced report with actionable recommendations
 | `xseek ai-visits <website>` | AI bot visit logs |
 | `xseek web-searches <website>` | LLM web searches |
 | `xseek analyze <website> <url>` | AEO Copilot page analysis |
+| `xseek keywords <website> "<topic>"` | Keyword research (volume, KD, related) |
 | `xseek brand-context <website>` | Brand voice, tone, and knowledge base |
 | `xseek articles list <website>` | List articles in Content Studio |
 | `xseek articles push <website>` | Push a new article (stdin or `--file`) |
