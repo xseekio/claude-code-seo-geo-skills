@@ -6,6 +6,8 @@ Generate a new article targeting a content gap where your site isn't cited by AI
 - `/generate-article` — picks the highest-value opportunity automatically
 - `/generate-article <topic or query>` — targets a specific topic
 
+The article is automatically pushed to Content Studio via `xseek articles push`. You can then view it with `xseek articles list` and publish it with `xseek articles publish`.
+
 ## Prerequisites
 
 The xSeek CLI must be installed and authenticated:
@@ -25,6 +27,7 @@ export XSEEK_API_KEY=your_api_key
    - `xseek web-searches <website> --pageSize 100 --format json` — LLM search queries
    - `xseek sources <website> --format json` — currently cited URLs
    - `xseek search-queries <website> --pageSize 100 --sortBy impressions --format json` — GSC queries
+   - `xseek brand-context <website> --format json` — brand voice, tone, and knowledge base (ALWAYS fetch this — settings can change between runs)
 
 3. If the user provided a topic/query, find the matching opportunity. If not, pick the highest business-value opportunity (critical > high > medium) with the most frequency.
 
@@ -84,7 +87,14 @@ export XSEEK_API_KEY=your_api_key
 
 ### Phase 3: Write the Article
 
-9. Write a new article that:
+9. **Apply Brand Context** — use the brand context fetched in step 2:
+   - **Brand Tone**: Match the tone (`professional`, `conversational`, `technical`, `friendly`) throughout the article
+   - **Brand Voice Guidelines**: Follow any specific writing instructions (word choices, phrases to avoid, style preferences)
+   - **Knowledge Base**: Weave in company-specific facts, product details, and expertise from the knowledge chunks. This is proprietary information the brand wants highlighted.
+   - **Brand Voice Samples**: Study the samples and match the writing style — sentence length, vocabulary level, personality
+   - If no brand context is set, default to an authoritative, professional tone
+
+10. Write a new article that:
 
 **Beats the competition by:**
 - Covering every subtopic the top 3 articles cover, plus gaps they miss
@@ -125,9 +135,28 @@ export XSEEK_API_KEY=your_api_key
 
 **Read and apply all rules from [writing-rules.md](./writing-rules.md) before writing any content.** This is mandatory — every sentence must pass the writing rules check.
 
-### Phase 4: Output
+### Phase 4: Push to Content Studio
 
-10. Output the complete article in this format:
+10. Save the article markdown to a temporary file and push it to Content Studio:
+
+```sh
+# Extract the article content (everything between the first --- and the Competitive Analysis section)
+# Save to a temp file
+cat > /tmp/article.md << 'ARTICLE'
+[full article markdown content here]
+ARTICLE
+
+# Push to Content Studio
+xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --file /tmp/article.md --format json
+```
+
+11. Confirm the article was created successfully — display the article ID and status returned by the API.
+
+12. If the push fails (e.g. article limit reached, auth error), display the error and output the article markdown directly so the user doesn't lose it.
+
+### Phase 5: Output
+
+13. Output the complete article in this format:
 
 ```markdown
 # [H1 Title — under 60 characters]

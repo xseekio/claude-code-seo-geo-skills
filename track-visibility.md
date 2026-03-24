@@ -10,18 +10,26 @@ Generate a quick AI visibility snapshot: where you stand across AI search engine
 - **AI bot crawl volume** — how actively AI models index your content
 - **Prompt coverage** — what % of relevant prompts result in your brand being mentioned
 
+## Prerequisites
+
+The xSeek CLI must be installed and authenticated:
+```sh
+curl -fsSL https://cli.xseek.io/install.sh | sh
+export XSEEK_API_KEY=your_api_key
+```
+
 ## Steps
 
-1. Call `get_websites` and let the user pick a website (or use the first one).
+1. Run `xseek websites --format json` and let the user pick a website (or use the first one).
 
-2. Run these calls in parallel:
-   - `get_leaderboard` with `lastDays: 30`
-   - `get_prompts` — list of monitoring prompts
-   - `get_sources` with `pageSize: 30, sortBy: 'citationCount'`
-   - `get_search_metrics` with `pageSize: 20, sortBy: 'impressions'`
-   - `get_latest_ai_visits` with `pageSize: 20`
+2. Run these CLI calls in parallel (use `--format json` on all):
+   - `xseek leaderboard <website> --format json`
+   - `xseek prompts <website> --format json` — list of monitoring prompts
+   - `xseek sources <website> --format json`
+   - `xseek search-metrics <website> --pageSize 20 --sortBy impressions --format json`
+   - `xseek ai-visits <website> --pageSize 20 --format json`
 
-3. For the top 3 prompts (by most recent activity), call `get_latest_prompt_runs` to get the latest response.
+3. For the top 3 prompts (by most recent activity), run `xseek prompt-runs <website> <promptId> --format json` to get the latest responses.
 
 4. Produce a visibility snapshot:
 

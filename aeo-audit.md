@@ -17,18 +17,26 @@ Run a comprehensive audit of a website's AI Engine Optimization (AEO) health. Th
 - **LLM web searches**: The actual search queries AI models run when answering prompts. These are the keywords to target.
 - **Pages needing attention**: Pages where AI traffic dropped >20%. Urgent fixes.
 
+## Prerequisites
+
+The xSeek CLI must be installed and authenticated:
+```sh
+curl -fsSL https://cli.xseek.io/install.sh | sh
+export XSEEK_API_KEY=your_api_key
+```
+
 ## Steps
 
-1. First, call `get_websites` to list all websites and let the user pick one (or use the first one).
+1. First, run `xseek websites --format json` to list all websites and let the user pick one (or use the first one).
 
-2. Run these calls in parallel for the selected websiteId:
-   - `get_leaderboard` with `lastDays: 30` — competitive position
-   - `get_sitemap_pages` with `days: 30` — all pages with traffic
-   - `get_pages_needing_attention` with `days: 30` — declining pages
-   - `get_search_metrics` with `pageSize: 50, sortBy: 'impressions'` — top GSC pages
-   - `get_prompt_web_searches` with `pageSize: 50` — LLM search queries
-   - `get_sources` with `pageSize: 50, sortBy: 'citationCount'` — top cited URLs
-   - `get_latest_ai_visits` with `pageSize: 50` — AI bot traffic
+2. Run these CLI calls in parallel for the selected website (use `--format json` on all):
+   - `xseek leaderboard <website> --format json` — competitive position
+   - `xseek sitemap-pages <website> --days 30 --format json` — all pages with traffic
+   - `xseek sitemap-pages <website> --days 30 --filter attention --format json` — declining pages
+   - `xseek search-metrics <website> --pageSize 50 --sortBy impressions --format json` — top GSC pages
+   - `xseek web-searches <website> --pageSize 50 --format json` — LLM search queries
+   - `xseek sources <website> --format json` — top cited URLs
+   - `xseek ai-visits <website> --pageSize 50 --format json` — AI bot traffic
 
 3. Analyze the data and produce a report with these sections:
 

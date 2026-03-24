@@ -53,16 +53,24 @@ When writing rewrite recommendations, evaluate the page against these methods an
 
 **Microsoft Copilot:** Requires Bing indexing. Microsoft ecosystem presence helps (LinkedIn, GitHub). Page speed < 2 seconds.
 
+## Prerequisites
+
+The xSeek CLI must be installed and authenticated:
+```sh
+curl -fsSL https://cli.xseek.io/install.sh | sh
+export XSEEK_API_KEY=your_api_key
+```
+
 ## Steps
 
-1. Call `get_websites` to find the websiteId. Match the URL domain to the right website.
+1. Run `xseek websites --format json` to find the websiteId. Match the URL domain to the right website.
 
-2. Run these calls in parallel:
-   - `get_search_queries_for_page` with the URL — what GSC queries drive traffic to this page
-   - `get_prompt_web_searches` with `pageSize: 100` — what queries LLMs search for
-   - `get_sources` with `search` set to the URL domain — which of your pages AI cites
-   - `get_latest_ai_visits` with `searchQuery` set to the URL path — AI bot traffic to this page
-   - `analyse_api` with the websiteId and URL — AEO Copilot analysis
+2. Run these CLI calls in parallel (use `--format json` on all):
+   - `xseek search-queries <website> --url <target_url> --pageSize 100 --format json` — what GSC queries drive traffic to this page
+   - `xseek web-searches <website> --pageSize 100 --format json` — what queries LLMs search for
+   - `xseek sources <website> --format json` — which of your pages AI cites
+   - `xseek ai-visits <website> --search <url_path> --pageSize 50 --format json` — AI bot traffic to this page
+   - `xseek analyze <website> <target_url>` — AEO Copilot analysis
 
 3. Cross-reference the data:
    - **GSC queries vs LLM queries**: Find queries where this page ranks on Google but AI models search for different terms. These are keyword gaps.
