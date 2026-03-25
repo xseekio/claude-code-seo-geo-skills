@@ -14,6 +14,7 @@ AI-powered content optimization skills for [Claude Code](https://claude.ai/claud
 | **Find Opportunities** | `/find-opportunities` | Content gap finder. Uses pre-computed opportunities with ranking articles, competitor citations, and business value scoring. Cross-references with GSC data and LLM web searches. Outputs a content calendar. |
 | **Rewrite Page** | `/rewrite-page <url>` | Fetches a page, analyzes AI visibility gaps, and produces a full rewrite applying Princeton GEO methods (+40% citations), humanization rules, and answer-first structure. Outputs publish-ready markdown with a changes summary. |
 | **Generate Article** | `/generate-article [topic]` | Picks the highest-value content gap, fetches the top 3-5 competitor articles that AI currently cites, studies their structure, and writes a new article that beats them. Pushes to Content Studio automatically. Includes GEO scorecard and competitive analysis. |
+| **Add Keywords** | `/add-keywords [url or articleId]` | Takes an existing article and enriches it with relevant SEO keywords from Google search data. Weaves keywords naturally into headings, body, and FAQ sections. |
 
 ## Quick Start
 
