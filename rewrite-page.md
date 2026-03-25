@@ -73,98 +73,13 @@ Use the results to:
 
 ---
 
-## GEO Optimization Rules (Princeton Research, KDD 2024)
+## GEO Methods + Human-Like Writing
 
-Apply ALL 9 methods. The research proves combining them works better — **Fluency + Statistics = 35.8% max improvement**.
+**Read and apply all rules from these two files before rewriting:**
+- **[writing-rules.md](./writing-rules.md)** — human-like writing rules (tone, banned words, sentence structure)
+- **[geo-methods.md](./geo-methods.md)** — all 9 Princeton GEO methods with examples, domain-specific tips, content structure for AI citation, and pre-publish checklist
 
-### 1. Cite Sources (+40% visibility) — #1 most effective method
-- Add 5-8 authoritative external references throughout the rewrite
-- Use inline format: "According to [Source Name], ..." or "A [Year] study by [Org] found..."
-- Prefer .edu, .gov, peer-reviewed, official documentation
-- Every major claim needs a citation backing it
-- Works especially well for factual, law & government content
-
-### 2. Statistics Addition (+37% visibility)
-- Add 5+ specific data points with sources
-- Use exact numbers: "37% increase" not "significant increase"
-- Place statistics early in sections — AI models scan openings first
-- Quantify comparisons: "3x faster" not "much faster"
-- Works especially well for debate, opinion, law & government content
-
-### 3. Quotation Addition (+30% visibility)
-- Add 2-3 expert quotes with full attribution
-- Format: "Quote here," says [Name], [Title] at [Organization]
-- Quotes must add insight, not padding — use them for credibility
-- Source from public interviews, articles, conference talks
-- Works especially well for people & society, history, explanatory content
-
-### 4. Authoritative Tone (+25% visibility)
-- No hedging. "This works" not "This might potentially work"
-- Active voice. Subject-verb-object. State conclusions first.
-- Take clear positions when recommending products or approaches
-- Works especially well for debate, history, science content
-
-### 5. Easy-to-Understand (+20% visibility)
-- Explain jargon on first use. One idea per paragraph. Max 3 sentences.
-- Use analogies for complex concepts
-- Reading level: smart 16-year-old should understand it
-- Works especially well for business, science, health content
-
-### 6. Technical Terms (+18% visibility)
-- Include domain-specific terminology experts search for
-- Balance with plain-language explanations (combine with Method 5)
-- Use exact terms from LLM web search data. Define acronyms on first use.
-
-### 7. Unique Words (+15% visibility)
-- Diverse vocabulary. Replace generic with specific: "plummeted" not "decreased a lot"
-- No cliches: no "game-changer", "revolutionary", "cutting-edge"
-
-### 8. Fluency Optimization (+15-30% visibility)
-- Natural flow between sentences. Vary sentence length.
-- Remove sentences that don't add information
-- **Best combo: Fluency + Statistics = 35.8% max improvement**
-
-### 9. NEVER: Keyword Stuffing (-10% visibility — PROVEN TO HURT)
-- Primary keyword 2-3 times max in the ENTIRE article
-- Use semantic variations naturally
-- If it reads like SEO content, rewrite it
-- The research shows keyword stuffing performs WORSE than no optimization
-
----
-
-## Content Structure for AI Citation
-
-AI models extract and cite content with this structure:
-
-### Answer-First Format
-- Open every section with a direct answer to the question it addresses
-- The first 1-2 sentences of each section should be self-contained and quotable
-- AI models pull the opening sentence as the citation — make it count
-
-### Heading Hierarchy
-- One H1 (the title)
-- H2 for major sections
-- H3 for subsections
-- Headings should be questions or contain the exact query people ask
-- Use headings that match LLM web search queries from the data
-
-### Scannable Structure
-- Bullet points for lists of 3+ items
-- Numbered lists for sequential steps
-- Tables for comparison data (AI models love citing tables)
-- Bold key terms on first appearance
-
-### FAQ Section
-- Add a FAQ section at the end with 3-5 questions
-- Use exact questions from LLM web searches and GSC queries
-- Each answer should be 2-3 sentences — complete and self-contained
-- This content should be suitable for FAQPage schema markup
-
----
-
-## Human-Like Writing Rules + GEO Methods
-
-**Read and apply all rules from [writing-rules.md](./writing-rules.md) (human-like writing) and [geo-methods.md](./geo-methods.md) (GEO optimization with examples, domain tips, and checklist) before writing any content.** Both are mandatory.
+Both are mandatory. Every sentence in the rewrite must pass both the human writing check and the GEO optimization check.
 
 ---
 

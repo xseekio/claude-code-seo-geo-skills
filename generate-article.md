@@ -132,37 +132,13 @@ This returns search volume, keyword difficulty, and related keywords from Google
 - FAQ section: 5-7 questions pulled from LLM web searches, GSC queries, and related keywords. Frame high-volume keywords as questions (e.g. keyword "scrunchai alternatives" → "What are the best Scrunchai alternatives?")
 - Each FAQ answer: 2-3 self-contained sentences
 
-#### GEO Methods — Princeton Research (Apply ALL 9, in order of impact)
+#### GEO Methods + Human-Like Writing
 
-1. **Cite Sources (+40% visibility)**: Add 5-8 authoritative external references. Use inline format: "According to [Source], ..." Prefer .edu, .gov, peer-reviewed, official docs. Every major claim needs a citation. This is the #1 most effective method.
+**Read and apply all rules from these two files before writing:**
+- **[writing-rules.md](./writing-rules.md)** — human-like writing rules (tone, banned words, sentence structure)
+- **[geo-methods.md](./geo-methods.md)** — all 9 Princeton GEO methods with examples, domain-specific tips, and pre-publish checklist
 
-2. **Statistics Addition (+37%)**: Include 5+ specific data points with sources. Exact numbers, never vague: "37% increase" not "significant increase." Place stats early in sections — AI scans openings first. If comparing, quantify: "3x faster" not "much faster."
-
-3. **Quotation Addition (+30%)**: Add 2-3 expert quotes with full attribution: "Quote," says [Name], [Title] at [Organization]. Quotes must add insight, not padding. Use public sources: interviews, articles, conference talks.
-
-4. **Authoritative Tone (+25%)**: No hedging. Active voice. State conclusions before evidence. Take clear positions. "This works" not "This might potentially work."
-
-5. **Easy-to-Understand (+20%)**: Explain jargon on first use. One idea per paragraph, max 3 sentences. Use analogies. Reading level: smart 16-year-old.
-
-6. **Technical Terms (+18%)**: Include domain-specific terminology experts search for. Balance with plain explanations. Use exact terms from LLM web searches data. Define acronyms on first use.
-
-7. **Unique Words (+15%)**: Diverse vocabulary. Replace generic words with specific: "plummeted" not "decreased a lot." No cliches.
-
-8. **Fluency Optimization (+15-30%)**: Natural flow between sentences. Vary sentence length. Remove sentences that don't add info. **Best combo: Fluency + Statistics = 35.8% max improvement.**
-
-9. **NEVER Keyword Stuff (-10%)**: Primary keyword 2-3 times max in the whole article. Use semantic variations. If it reads like SEO content, rewrite it. The research proves keyword stuffing performs WORSE than no optimization.
-
-**Domain-specific tips from the research:**
-- Factual content → prioritize Citations + Statistics
-- Debate/opinion → prioritize Authoritative Tone + Statistics
-- People & society → prioritize Quotations + Easy-to-Understand
-- History → prioritize Quotations + Authoritative Tone
-- Law & government → prioritize Statistics + Citations
-- Business/B2B → prioritize Fluency + Statistics (best combo)
-
-#### Human-Like Writing Rules + GEO Methods
-
-**Read and apply all rules from [writing-rules.md](./writing-rules.md) (human-like writing) and [geo-methods.md](./geo-methods.md) (GEO optimization with examples, domain tips, and checklist) before writing any content.** Both are mandatory.
+Both are mandatory. Every sentence must pass both the human writing check and the GEO optimization check.
 
 ### Phase 4: Push to Content Studio
 
