@@ -162,9 +162,9 @@ AI models extract and cite content with this structure:
 
 ---
 
-## Human-Like Writing Rules
+## Human-Like Writing Rules + GEO Methods
 
-**Read and apply all rules from [writing-rules.md](./writing-rules.md) before writing any content.** This is mandatory — every sentence must pass the writing rules check.
+**Read and apply all rules from [writing-rules.md](./writing-rules.md) (human-like writing) and [geo-methods.md](./geo-methods.md) (GEO optimization with examples, domain tips, and checklist) before writing any content.** Both are mandatory.
 
 ---
 
