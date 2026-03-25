@@ -75,11 +75,11 @@ Use the results to:
 
 ## GEO Methods + Human-Like Writing
 
-**Read and apply all rules from these two files before rewriting:**
-- **[writing-rules.md](./writing-rules.md)** — human-like writing rules (tone, banned words, sentence structure)
-- **[geo-methods.md](./geo-methods.md)** — all 9 Princeton GEO methods with examples, domain-specific tips, content structure for AI citation, and pre-publish checklist
+**Before rewriting, read the full content of these two skills (installed via `xseek init`):**
+- **`/writing-rules`** — human-like writing rules (tone, banned words, sentence structure)
+- **`/geo-methods`** — all 9 Princeton GEO methods with examples, domain-specific tips, content structure for AI citation, and pre-publish checklist
 
-Both are mandatory. Every sentence in the rewrite must pass both the human writing check and the GEO optimization check.
+Read both skills in full. Every sentence in the rewrite must pass both the human writing check and the GEO optimization check.
 
 ---
 

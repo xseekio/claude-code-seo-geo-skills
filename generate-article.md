@@ -134,11 +134,11 @@ This returns search volume, keyword difficulty, and related keywords from Google
 
 #### GEO Methods + Human-Like Writing
 
-**Read and apply all rules from these two files before writing:**
-- **[writing-rules.md](./writing-rules.md)** — human-like writing rules (tone, banned words, sentence structure)
-- **[geo-methods.md](./geo-methods.md)** — all 9 Princeton GEO methods with examples, domain-specific tips, and pre-publish checklist
+**Before writing, read the full content of these two skills (installed via `xseek init`):**
+- **`/writing-rules`** — human-like writing rules (tone, banned words, sentence structure)
+- **`/geo-methods`** — all 9 Princeton GEO methods with examples, domain-specific tips, and pre-publish checklist
 
-Both are mandatory. Every sentence must pass both the human writing check and the GEO optimization check.
+Read both skills in full. Every sentence must pass both the human writing check and the GEO optimization check.
 
 ### Phase 4: Push to Content Studio
 
