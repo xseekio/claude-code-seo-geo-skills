@@ -6,7 +6,7 @@ Generate a new article targeting a content gap where your site isn't cited by AI
 - `/generate-article` — picks the highest-value opportunity automatically
 - `/generate-article <topic or query>` — targets a specific topic
 
-The article is automatically pushed to Content Studio via `xseek articles push`. You can then view it with `xseek articles list` and publish it with `xseek articles publish`.
+The article is pushed to Content Studio as a **draft** via `xseek articles push`. The user can review it in the dashboard, then mark it as ready or published when they're satisfied.
 
 
 ## Steps
@@ -142,22 +142,25 @@ Read both skills in full. Every sentence must pass both the human writing check 
 
 ### Phase 4: Push to Content Studio
 
-10. Save the article markdown to a temporary file and push it to Content Studio:
+10. **Ask the user** before pushing: "Do you want to push this as a **draft** (review first) or **ready** (ready to publish)?"
+   - If the user says draft or doesn't specify → use `--status draft`
+   - If the user says ready or publish → use `--status ready`
+   - Default to `draft` if unsure
+
+11. Save the article markdown to a temporary file and push it to Content Studio:
 
 ```sh
-# Extract the article content (everything between the first --- and the Competitive Analysis section)
-# Save to a temp file
 cat > /tmp/article.md << 'ARTICLE'
 [full article markdown content here]
 ARTICLE
 
-# Push to Content Studio
-xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --file /tmp/article.md --format json
+# Push to Content Studio (--status draft or --status ready based on user choice)
+xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --file /tmp/article.md --format json
 ```
 
-11. Confirm the article was created successfully — display the article ID and status returned by the API.
+12. Confirm the article was created successfully — display the article ID and status.
 
-12. If the push fails (e.g. article limit reached, auth error), display the error and output the article markdown directly so the user doesn't lose it.
+13. If the push fails (e.g. auth error), display the error and output the article markdown directly so the user doesn't lose it.
 
 ### Phase 5: Output
 

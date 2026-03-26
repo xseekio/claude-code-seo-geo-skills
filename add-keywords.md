@@ -81,10 +81,10 @@ xseek keywords <website> "<article primary topic>" --format json
 **Keywords skipped:** [list of keywords that didn't fit naturally]
 ```
 
-10. If the article came from Content Studio, push the updated version:
+10. If the article came from Content Studio, ask the user if they want to push the updated version as **draft** or **ready**, then push:
 
 ```sh
-xseek articles push <website> --title "<article title>" --file /tmp/enriched-article.md --format json
+xseek articles push <website> --title "<article title>" --status draft --file /tmp/enriched-article.md --format json
 ```
 
-Or if updating an existing article via the API, use PATCH.
+Or if updating an existing article, use PATCH to update the content in place.
