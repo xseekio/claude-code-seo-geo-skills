@@ -15,6 +15,7 @@ AI-powered content optimization skills for [Claude Code](https://claude.ai/claud
 | **Rewrite Page** | `/rewrite-page <url>` | Fetches a page, analyzes AI visibility gaps, and produces a full rewrite applying Princeton GEO methods (+40% citations), humanization rules, and answer-first structure. Outputs publish-ready markdown with a changes summary. |
 | **Generate Article** | `/generate-article [topic]` | Picks the highest-value content gap, fetches the top 3-5 competitor articles that AI currently cites, studies their structure, and writes a new article that beats them. Pushes to Content Studio automatically. Includes GEO scorecard and competitive analysis. |
 | **Add Keywords** | `/add-keywords [url or articleId]` | Takes an existing article and enriches it with relevant SEO keywords from Google search data. Weaves keywords naturally into headings, body, and FAQ sections. |
+| **Publish Articles** | `/publish-articles [article title]` | Fetches ready articles from Content Studio, publishes them to your website, and updates their status. Publish all or pick one by name. |
 | **Fact-Check** | `/fact-check [url or articleId]` | Verifies every product, pricing, and feature claim in an article against official sources. Flags outdated info and suggests fixes. |
 
 ## Quick Start
