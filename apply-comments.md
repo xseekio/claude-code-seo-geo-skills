@@ -4,7 +4,8 @@ Fetch unresolved comments on an article, apply the requested changes to the cont
 
 **Usage:**
 - `/apply-comments` — picks the article with the most unresolved comments
-- `/apply-comments <articleId>` — applies comments on a specific article
+- `/apply-comments <articleId>` — applies all unresolved comments on a specific article
+- `/apply-comments <articleId> <commentId>` — applies a single specific comment
 
 ## Steps
 
@@ -12,18 +13,20 @@ Fetch unresolved comments on an article, apply the requested changes to the cont
 
 1. Run `xseek websites --format json` to get the website.
 
-2. Run `xseek articles list <website> --format json` to get all articles.
+2. If a specific `articleId` was provided, skip to step 3. Otherwise, run `xseek articles list <website> --format json` to get all articles.
 
-3. For each article (or the specified one), run `xseek articles comments <website> <articleId> --format json` to get comments.
+3. Run `xseek articles comments <website> <articleId> --format json` to get comments.
 
-4. If no argument was provided, pick the article with the most unresolved comments. If no articles have unresolved comments, tell the user.
+4. If a specific `commentId` was provided (second argument), find that comment and apply only that one — skip step 5 and 6, go directly to Phase 2.
 
-5. Show the user:
+5. If no argument was provided, pick the article with the most unresolved comments. If no articles have unresolved comments, tell the user.
+
+6. Show the user:
    - Article title
    - Number of unresolved comments
    - List each comment: the selected text + the comment
-
-6. Ask the user: "Apply all comments, or pick specific ones?"
+   - If only one comment, apply it directly without asking.
+   - If multiple, ask: "Apply all comments, or pick specific ones?"
 
 ### Phase 2: Get Article Content
 
