@@ -20,7 +20,7 @@ The article is pushed to Content Studio as a **draft** via `xseek articles push`
    - `xseek web-searches <website> --pageSize 100 --format json` — LLM search queries
    - `xseek sources <website> --format json` — currently cited URLs
    - `xseek search-queries <website> --pageSize 100 --sortBy impressions --format json` — GSC queries
-   - `xseek brand-context <website> --format json` — brand voice, tone, and knowledge base (ALWAYS fetch this — settings can change between runs)
+   - `xseek brand-context <website> --format markdown` — full brand brief (tone, identity, voice, anchors, surface rules, audiences, knowledge, style samples). ALWAYS fetch this — settings can change between runs. Use the rendered markdown as the canonical voice spec for the whole article.
 
 3. If the user provided a topic/query, find the matching opportunity. If not, pick the highest business-value opportunity (critical > high > medium) with the most frequency.
 
@@ -92,18 +92,23 @@ This returns search volume, keyword difficulty, and related keywords from Google
    - Weave medium-tail keywords naturally into the body
    - Avoid keywords with KD > 80 as primary targets unless the site has strong domain authority
 
-10. **Apply Brand Context** — use the brand context fetched in step 2:
-   - **ICP (Ideal Customer Profile)**: This is critical — write for the target audience defined in the ICP:
-     - Use vocabulary and terminology the `targetAudience` understands (technical for developers, business for executives, etc.)
-     - Address the specific `painPoints` — the article should feel like it was written for someone experiencing these exact problems
-     - Match the `industry` context — use industry-specific examples, metrics, and references
-     - Consider the `buyerRole` — a CTO reads differently than a marketing manager
-     - Frame the `useCase` as the natural solution within the article
-   - **Brand Tone**: Match the tone (`professional`, `conversational`, `technical`, `friendly`) throughout the article
-   - **Brand Voice Guidelines**: Follow any specific writing instructions (word choices, phrases to avoid, style preferences)
-   - **Knowledge Base**: Weave in company-specific facts, product details, and expertise from the knowledge chunks. This is proprietary information the brand wants highlighted.
-   - **Brand Voice Samples**: Study the samples and match the writing style — sentence length, vocabulary level, personality
-   - If no brand context is set, default to an authoritative, professional tone
+10. **Apply the brand brief** — use every section of the markdown returned by `xseek brand-context` in step 2. Treat it as a single voice spec; missing sections are fine, present sections are non-negotiable.
+   - **Tone** (`professional` | `conversational` | `technical` | `friendly`): set the register for the entire article.
+   - **Identity → Adjectives**: every paragraph should plausibly fit these words. If the brand says "direct, warm, expert," the article cannot read as "playful, edgy, casual."
+   - **Identity → Signature words**: weave them into headings, intros, and CTAs where they fit naturally. Don't shoehorn — but don't ignore them either.
+   - **Identity → Banned words**: hard rule. Search the draft for each banned word before output. Zero occurrences allowed.
+   - **Identity → Positions** ("what we stand for / what we reject"): these are opinions the brand holds. Reflect them — the article should feel like it could only have come from this brand, not a generic competitor.
+   - **Voice → Guidelines**: follow specific writing instructions (sentence length, jargon stance, formality).
+   - **Voice → Opening sentence examples**: model the rhythm of the intro paragraph on these.
+   - **Anchors → Brands we admire**: borrow the *qualities* of these brands (clarity, opinion, structure) — never copy their words.
+   - **Anchors → Voices to avoid**: explicit anti-patterns. If the brand lists "generic SaaS marketing speak," your draft cannot read like that.
+   - **Anchors → Own content URLs**: if listed, fetch one of these pages to anchor your prose style on the brand's actual writing.
+   - **Surface rules → Always surface**: include the listed claims/numbers/proof points whenever the article context allows.
+   - **Surface rules → Never surface**: hard rule. Do not mention any topic, fact, or claim in this list.
+   - **Audiences**: each audience has a name + description + topics. Write for the audience whose topics this article best serves; address their language and decision drivers.
+   - **Knowledge entries**: weave in company-specific facts, product details, and proprietary expertise. This is information the brand wants highlighted.
+   - **Style references (samples)**: match the structure, sentence length, vocabulary level, and personality of these full-length samples. Read them before writing the first paragraph.
+   - If no brand brief is set, default to an authoritative, professional tone — but flag this in your output so the user knows the article is generic.
 
 11. Write a new article that:
 

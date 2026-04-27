@@ -4,6 +4,27 @@ Write like you're explaining something to someone, not like you're trying to imp
 
 ---
 
+## The brand brief comes first
+
+Before applying any rule below, fetch and read the brand brief:
+
+```sh
+xseek brand-context <website> --format markdown
+```
+
+The brief is the canonical voice spec for this brand. Treat every section as authoritative:
+
+- **Tone** sets register.
+- **Identity → Adjectives, Signature words, Banned words, Positions** are non-negotiable. Banned words = zero occurrences. Signature words = woven in where natural.
+- **Voice → Guidelines + Opening sentence examples** override the generic rules in this file when they conflict.
+- **Anchors** name brands to emulate (qualities only, not words) and voices to avoid.
+- **Surface rules** mark facts that must always appear and topics that must never appear.
+- **Audiences + Knowledge entries + Style references** ground the writing in the brand's actual readers and proprietary knowledge.
+
+If the brief is empty for a section, fall back to the rules below. If the brief contradicts the rules below, **the brief wins**.
+
+---
+
 ## Keep it simple
 - Use common, everyday words. Avoid complex or academic vocabulary.
 - Prefer clarity over sophistication.

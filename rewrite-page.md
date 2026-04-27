@@ -16,7 +16,7 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
    - `xseek web-searches <website> --pageSize 100 --format json` — what LLMs actually search for
    - `xseek sources <website> --format json` — which pages AI currently cites
    - `xseek ai-visits <website> --search <url_path> --pageSize 20 --format json` — AI bot traffic to this page
-   - `xseek brand-context <website> --format json` — brand voice, tone, and knowledge base
+   - `xseek brand-context <website> --format markdown` — full brand brief (tone, identity, voice, anchors, surface rules, audiences, knowledge, style samples). Use the rendered markdown as the canonical voice spec for the rewrite.
 
 4. **Keyword Research** — based on the page topic and top GSC queries, run keyword research:
 
@@ -48,18 +48,23 @@ Use the results to:
    - For lower-impression queries: ensure at least a close semantic match exists
    - **CRITICAL: Do NOT remove, rephrase away, or dilute any GSC keyword the page currently ranks for.** Losing these keywords means losing existing Google traffic. The rewrite should strengthen keyword coverage, not weaken it.
 
-7. **Apply Brand Context** — use the brand context fetched in step 3:
-   - **ICP (Ideal Customer Profile)**: Write for the target audience defined in the ICP:
-     - Use vocabulary and terminology the `targetAudience` understands
-     - Address the specific `painPoints` — the rewrite should resonate with someone experiencing these problems
-     - Match the `industry` context — use industry-specific examples and references
-     - Consider the `buyerRole` — adapt the level of detail and framing accordingly
-     - Frame the `useCase` naturally within the content
-   - **Brand Tone**: Match the tone (`professional`, `conversational`, `technical`, `friendly`) throughout the rewrite
-   - **Brand Voice Guidelines**: Follow any specific writing instructions (word choices, phrases to avoid, style preferences)
-   - **Knowledge Base**: Weave in company-specific facts, product details, and expertise from the knowledge chunks
-   - **Brand Voice Samples**: Study the samples and match the writing style — sentence length, vocabulary level, personality
-   - If no brand context is set, default to an authoritative, professional tone
+7. **Apply the brand brief** — use every section of the markdown returned by `xseek brand-context` in step 3. Treat it as a single voice spec; missing sections are fine, present sections are non-negotiable.
+   - **Tone** (`professional` | `conversational` | `technical` | `friendly`): set the register for the entire rewrite.
+   - **Identity → Adjectives**: every paragraph of the rewrite should plausibly fit these words.
+   - **Identity → Signature words**: weave them into headings, intros, and CTAs where they fit naturally.
+   - **Identity → Banned words**: hard rule. Search the rewrite for each banned word before output. Zero occurrences allowed.
+   - **Identity → Positions** ("what we stand for / what we reject"): reflect these opinions in the rewrite. Generic copy is a fail.
+   - **Voice → Guidelines**: follow specific writing instructions (sentence length, jargon stance, formality).
+   - **Voice → Opening sentence examples**: model the rhythm of the rewritten intro on these.
+   - **Anchors → Brands we admire**: borrow the *qualities* (clarity, opinion, structure) — never copy their words.
+   - **Anchors → Voices to avoid**: explicit anti-patterns. If the brand lists "generic SaaS marketing speak," the rewrite cannot read like that.
+   - **Anchors → Own content URLs**: if listed, sample one to anchor your prose style on the brand's actual writing.
+   - **Surface rules → Always surface**: include the listed claims/numbers/proof points whenever context allows.
+   - **Surface rules → Never surface**: hard rule. Do not mention any topic, fact, or claim in this list.
+   - **Audiences**: write for the audience whose topics this page best serves; address their language and decision drivers.
+   - **Knowledge entries**: weave in company-specific facts, product details, and proprietary expertise.
+   - **Style references (samples)**: match the structure, sentence length, vocabulary level, and personality of these full-length samples. Read them before rewriting the first paragraph.
+   - If no brand brief is set, default to an authoritative, professional tone — but flag this in your output so the user knows the rewrite is generic.
 
 8. Analyze the gaps:
    - Which LLM search queries are relevant to this page's topic but not addressed?
