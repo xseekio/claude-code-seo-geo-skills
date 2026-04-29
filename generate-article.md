@@ -152,11 +152,20 @@ Read both skills in full. Every sentence must pass both the human writing check 
    - If the user says ready or publish → use `--status ready`
    - Default to `draft` if unsure
 
-11. Save the article markdown to a temporary file and push it to Content Studio:
+11. Save the article markdown to a temporary file and push it to Content Studio.
+
+   **CRITICAL — the file must contain BODY ONLY:**
+   - **NO H1 title** (passed via `--title`)
+   - **NO metadata block** (no `**Meta description:**`, `**Target queries:**`, `**Target keywords:**`, `**Recommended schema:**`, `**Estimated word count:**` lines — meta description is passed via `--meta-description`)
+   - **NO leading `---` separator**
+   - Start the file at the first prose paragraph of the article. Include H2/H3 sections, FAQ, competitive analysis, etc. — everything except the title and the metadata block.
+
+   The metadata block from the Phase 5 output template is for your reasoning/display only — it does NOT belong inside the published article on the live site.
 
 ```sh
 cat > /tmp/article.md << 'ARTICLE'
-[full article markdown content here]
+[Article BODY only — first prose paragraph, then H2/H3 sections, FAQ, etc.
+ NO title, NO metadata block, NO leading `---`.]
 ARTICLE
 
 # Push to Content Studio (--status draft or --status ready based on user choice)
