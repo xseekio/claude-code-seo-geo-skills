@@ -7,6 +7,8 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
 
 ## Steps
 
+0. **If no URL was passed as the argument** (the user ran `/rewrite-page` with nothing after it), stop and ask: *"Which page do you want me to rewrite? Paste the full URL (e.g. `https://example.com/blog/my-article`)."* Do NOT pick a URL yourself or assume context. Wait for the answer before proceeding to step 1.
+
 1. Run `xseek websites --format json` to find the websiteId matching the URL domain.
 
 2. Fetch the page content using a web fetch of the target URL to get the current HTML/text.
