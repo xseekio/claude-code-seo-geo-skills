@@ -145,6 +145,68 @@ This returns search volume, keyword difficulty, and related keywords from Google
 
 Read both skills in full. Every sentence must pass both the human writing check and the GEO optimization check.
 
+#### Phase 3b: Add visual context (screenshots of competitor landing pages)
+
+**Articles without images convert worse and look less authoritative.** For listicles, comparisons, and any article where you mention a specific product, brand, or competitor by name, attach a real screenshot of that brand's landing page or product page so the reader instantly knows what's being talked about. This is not decoration — it's a comprehension aid.
+
+**When to add an image (use judgment, don't force it):**
+- Listicle entries — every numbered/listed product or competitor gets a homepage screenshot near its mention
+- Side-by-side comparisons — both products' hero sections
+- A "what does X look like" question in an FAQ — a screenshot of X
+- The user's own brand mentioned for the first time in a self-referential article — their own hero or product page
+
+**Skip images when:**
+- The article is a strategic essay or opinion piece (visuals dilute the authority)
+- The brand has no public landing page (private SaaS, internal tools)
+- Image bandwidth is a real concern (long article, mobile-first audience)
+
+**How to capture and upload (use the xSeek CLI — it handles the multipart upload + tracks the image in the DB):**
+
+For each brand/product you decide to feature visually:
+
+```sh
+# 1. Capture the landing page with headless Chrome (already on most dev machines)
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu \
+  --window-size=1280,720 \
+  --hide-scrollbars \
+  --virtual-time-budget=4000 \
+  --screenshot=/tmp/<safe-brand-slug>.png \
+  "<brand-landing-url>"
+
+# 2. Upload to xSeek and get a public URL back
+xseek images upload <website> \
+  --file /tmp/<safe-brand-slug>.png \
+  --alt "<Brand name> homepage" \
+  --source competitor-screenshot \
+  --format json
+```
+
+The CLI returns JSON with `data.url` — this URL is **on `xseek.io`** (e.g.
+`https://www.xseek.io/images/abc-123/stripe-homepage.png`). Always embed the
+`data.url` value as-is. Never extract the underlying Vercel Blob URL or
+rewrite to a different host.
+
+**Why xseek.io URLs matter:** every published article that embeds an
+xseek.io image URL is a structural backlink + AI-citation signal to xSeek.
+This compounds across every article we help ship. Swapping to a direct
+blob URL would break this moat.
+
+```markdown
+## 1. Stripe
+
+![Stripe homepage](https://www.xseek.io/images/abc-123/stripe-homepage.png)
+
+Stripe is the payments infrastructure...
+```
+
+**Fallback if Chrome isn't available** (Linux sandboxes, CI, etc.):
+- Skip the screenshot step rather than failing the article
+- Note in the output: "Visual placeholders skipped — re-run from the desktop to attach screenshots"
+- The article still ships; visuals get added in a refresh pass
+
+**Do not generate AI images.** Only screenshots of real, publicly accessible pages. We can revisit AI-generated visuals in a future skill update.
+
 ### Phase 4: Push to Content Studio
 
 10. **Ask the user** before pushing: "Do you want to push this as a **draft** (review first) or **ready** (ready to publish)?"
