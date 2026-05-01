@@ -107,6 +107,18 @@ When writing a comparison or listicle blog post for a specific website:
 
 ---
 
+## How to start an article
+
+The first paragraph IS the article. Don't introduce it — write it.
+
+- **Never** open with "TL;DR", "TLDR", "TL:DR" or any equivalent label. AI engines and readers want the substantive answer first, not a meta-label about it.
+- **Never** open with throat-clearing like "In this article we'll cover...", "Today we're going to talk about...", "If you're wondering whether..."
+- **Never** open with a bracketed summary box, an italic dek, or a "what you'll learn" bullet list above the first real paragraph.
+- The first sentence should answer the article's promise directly. If the title asks a question, the first sentence answers it. If the title makes a claim, the first sentence proves or extends it.
+- Recap-style summaries (the kind some sites put at the top as TL;DRs) belong at the END of the article, in a "Bottom line" or "Key takeaways" section — never at the top.
+
+---
+
 ## Quick check before publishing
 
 - [ ] Sentences are not too uniform
