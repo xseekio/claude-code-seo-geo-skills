@@ -13,6 +13,10 @@ The article is pushed to Content Studio as a **draft** via `xseek articles push`
 
 ### Phase 1: Find the Right Opportunity
 
+**0. If `opportunityId="<uuid>"` was passed in the prompt, use that ID exactly. No fuzzy matching, no "I think the user meant…", no creating a duplicate. Jump straight to step 4 (extract keywords from this exact opportunity row). When you push the article in Phase 4, you MUST pass `--opportunity-id "<the-same-uuid>"` to `xseek articles push`. This is non-negotiable: the dashboard handed you an exact ID, and the only acceptable behavior is to honor it.**
+
+The `opportunityId` is the source of truth for which opportunity this article addresses. Do not call `xseek opportunities` to "find a better match". Skip the discovery, fetch the row, write the article, push it back wired to the same ID.
+
 1. Run `xseek websites --format json` to get the website.
 
 2. Run these in parallel (use `--format json` on all):
@@ -22,7 +26,7 @@ The article is pushed to Content Studio as a **draft** via `xseek articles push`
    - `xseek search-queries <website> --pageSize 100 --sortBy impressions --format json` — GSC queries
    - `xseek brand-context <website> --format markdown` — full brand brief (tone, identity, voice, anchors, surface rules, audiences, knowledge, style samples). ALWAYS fetch this — settings can change between runs. Use the rendered markdown as the canonical voice spec for the whole article.
 
-3. If the user provided a topic/query, find the matching opportunity. If not, pick the highest business-value opportunity (critical > high > medium) with the most frequency.
+3. If `opportunityId` was passed (step 0), the opportunity row is already chosen — skip this step. Otherwise: if the user provided a topic/query, find the matching opportunity. If neither, pick the highest business-value opportunity (critical > high > medium) with the most frequency.
 
 4. Extract **target keywords** from the opportunity's SEO data:
    - `matchedKeyword`: the highest-volume Google keyword mapped to this LLM query
@@ -160,32 +164,68 @@ Read both skills in full. Every sentence must pass both the human writing check 
 - The brand has no public landing page (private SaaS, internal tools)
 - Image bandwidth is a real concern (long article, mobile-first audience)
 
-**How to capture and upload (use the xSeek CLI — it handles the multipart upload + tracks the image in the DB):**
+**How to capture and upload (no `xseek images` CLI subcommand exists — POST directly to the V1 images endpoint):**
 
 For each brand/product you decide to feature visually:
 
 ```sh
-# 1. Capture the landing page with headless Chrome (already on most dev machines)
+# 1. Capture with headless Chrome. Use --headless=new (legacy --headless hangs
+#    on bot-protected sites like tryprofound.com). Set a real desktop UA — some
+#    SaaS sites serve a stripped/blank hero to "Headless Chrome". 8s budget gives
+#    hero animations and lazy-loaded sections time to paint.
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless --disable-gpu \
-  --window-size=1280,720 \
+  --headless=new --disable-gpu --no-sandbox \
+  --window-size=1280,800 \
   --hide-scrollbars \
-  --virtual-time-budget=4000 \
+  --virtual-time-budget=8000 \
+  --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
   --screenshot=/tmp/<safe-brand-slug>.png \
   "<brand-landing-url>"
 
-# 2. Upload to xSeek and get a public URL back
-xseek images upload <website> \
-  --file /tmp/<safe-brand-slug>.png \
-  --alt "<Brand name> homepage" \
-  --source competitor-screenshot \
-  --format json
+# 2. CRITICAL — trim white/uniform borders. The 1280×800 viewport rarely matches
+#    the actual hero height; without this step every embedded image ships with
+#    a giant white band underneath. -trim crops uniform-color borders to the
+#    real content; the 8px frame keeps a subtle padding.
+magick /tmp/<safe-brand-slug>.png \
+  -bordercolor white -border 1x1 \
+  -trim +repage \
+  -bordercolor "#FAFAFA" -border 8x8 \
+  /tmp/<safe-brand-slug>.png
+
+# 3. Sanity check. Reject and recapture if size < 30 KB (likely blank page) or
+#    height/width ratio < 0.35 (likely a thin hero strip with nothing below).
+read W H <<< "$(magick identify -format '%w %h' /tmp/<safe-brand-slug>.png)"
+ratio=$(awk -v h=$H -v w=$W 'BEGIN { printf "%.2f", h/w }')
+size=$(wc -c < /tmp/<safe-brand-slug>.png)
+if [ "$size" -lt 30000 ] || awk -v r=$ratio 'BEGIN { exit !(r < 0.35) }'; then
+  echo "BAD SCREENSHOT — recapture with longer wait or skip this brand"
+fi
+
+# 4. Upload to xSeek's V1 images endpoint. The API key sits in ~/.xseek/config.
+API_KEY=$(grep api_key ~/.xseek/config | sed 's/.*"\(.*\)".*/\1/')
+curl -s -X POST "https://www.xseek.io/api/v1/websites/<websiteId>/images" \
+  -H "Authorization: Bearer $API_KEY" \
+  -F "file=@/tmp/<safe-brand-slug>.png" \
+  -F "alt=<Brand name> homepage" \
+  -F "source=competitor-screenshot" \
+  | jq -r '.data.url'
 ```
 
-The CLI returns JSON with `data.url` — this URL is **on `xseek.io`** (e.g.
+The endpoint returns JSON `{ data: { url, ... } }` — this URL is **on `xseek.io`** (e.g.
 `https://www.xseek.io/images/abc-123/stripe-homepage.png`). Always embed the
 `data.url` value as-is. Never extract the underlying Vercel Blob URL or
 rewrite to a different host.
+
+**Screenshot quality rules — non-negotiable:**
+
+1. **Always pipe through `magick … -trim`** before uploading. Past articles shipped with white bands under every image because the raw 1280×800 viewport included empty space below the hero.
+2. **Use `--headless=new`, not legacy `--headless`.** Legacy mode hangs indefinitely on Cloudflare-protected and bot-detection sites.
+3. **Set a real desktop user-agent** — several marketing pages serve blank heroes to the default Headless Chrome UA.
+4. **Wait 8 seconds minimum** (`--virtual-time-budget=8000`). 4s gets you half-painted heroes.
+5. **Sanity-check size and ratio** before uploading. A capture under 30 KB or with h/w < 0.35 is almost always broken.
+6. **Never embed cookie banners, error pages, or partially-rendered layouts.** Skip the screenshot rather than ship a bad one.
+7. **Always use an explicit `--screenshot=/tmp/<slug>.png`** path so parallel captures don't overwrite each other on the default `screenshot.png`.
+8. **Fallback when headless keeps failing**: use the `mcp__claude-in-chrome__computer` extension (runs in the user's real Chrome and bypasses bot detection), or skip that brand and note it.
 
 **Why xseek.io URLs matter:** every published article that embeds an
 xseek.io image URL is a structural backlink + AI-citation signal to xSeek.
@@ -230,8 +270,14 @@ cat > /tmp/article.md << 'ARTICLE'
  NO title, NO metadata block, NO leading `---`.]
 ARTICLE
 
-# Push to Content Studio (--status draft or --status ready based on user choice)
-xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --file /tmp/article.md --format json
+# Push to Content Studio (--status draft or --status ready based on user choice).
+# CRITICAL: when `opportunityId` was passed in the original prompt (step 0),
+# you MUST include `--opportunity-id "<same-uuid>"` here. The exact same UUID,
+# no substitutions. This is what wires the published article back to the
+# action plan so the opportunity gets marked done. Skipping it leaves the
+# opportunity hanging as "still to ship" and the dashboard will surface
+# duplicates.
+xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --opportunity-id "<uuid-from-prompt>" --file /tmp/article.md --format json
 ```
 
 12. Confirm the article was created successfully — display the article ID and status.

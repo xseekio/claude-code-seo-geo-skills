@@ -68,7 +68,20 @@ If the brief is empty for a section, fall back to the rules below. If the brief 
 ## Limit adjectives
 - Avoid stacking descriptors. Don't pair adjectives: not "powerful and intuitive."
 - Keep descriptions simple and natural.
-- Don't use em-dashes for every aside — use commas or parentheses sometimes.
+
+## No em-dashes (—)
+- **Never use the em-dash (`—`) as punctuation.** It's the single biggest tell of AI-generated writing in 2026 — readers and detectors both pick up on it instantly.
+- This includes its cousins: en-dash with spaces ` – `, double-hyphen `--` used as a dash, and "em-dash for emphasis" in the middle of a sentence.
+- Rewrite every em-dash. Options:
+  - Split into two sentences with a period.
+  - Use a comma if the aside is short.
+  - Use parentheses if it's a true aside.
+  - Use a colon if you're introducing a list or explanation.
+- BAD: "xSeek isn't a cheaper Brand Radar — it's a different category."
+- GOOD: "xSeek isn't a cheaper Brand Radar. It's a different category."
+- BAD: "Three plans — Starter, Growth, Scale — each with onboarding included."
+- GOOD: "Three plans (Starter, Growth, Scale), each with onboarding included."
+- Before publishing, grep the draft for `—` and `–` and `--`. Zero hits.
 
 ## Specificity over abstraction
 - Replace every abstract claim with concrete evidence.
@@ -127,3 +140,4 @@ The first paragraph IS the article. Don't introduce it — write it.
 - [ ] Nothing sounds overly formal
 - [ ] It could pass as something written quickly by a real person
 - [ ] No banned words or phrases slipped through
+- [ ] **Zero em-dashes (`—`) in the body.** Run `grep -c "—" article.md` — must return 0. Same for en-dashes used as punctuation (` – `) and double-hyphens (`--`).

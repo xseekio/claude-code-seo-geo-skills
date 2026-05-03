@@ -97,21 +97,47 @@ If the original page is a listicle, comparison, "what is X" piece, or any articl
 **For each brand or product mentioned by name in the rewrite:**
 
 ```sh
-# Capture the landing page
+# 1. Capture the landing page (use --headless=new — old --headless hangs on
+#    sites with bot detection like tryprofound.com).
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless --disable-gpu \
-  --window-size=1280,720 \
+  --headless=new --disable-gpu --no-sandbox \
+  --window-size=1280,800 \
   --hide-scrollbars \
-  --virtual-time-budget=4000 \
+  --virtual-time-budget=8000 \
+  --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
   --screenshot=/tmp/<safe-brand-slug>.png \
   "<brand-landing-url>"
 
-# Upload to xSeek (writes to Vercel Blob, tracked in the DB for cleanup)
-xseek images upload <website> \
-  --file /tmp/<safe-brand-slug>.png \
-  --alt "<Brand name> homepage" \
-  --source competitor-screenshot \
-  --format json
+# 2. CRITICAL — trim white/uniform borders so the embedded image doesn't have
+#    a giant white band underneath. Pages shorter than the viewport, lazy-loaded
+#    sections, and dark hero sections that fade to white all leave dead space.
+#    -trim removes uniform-color borders; -bordercolor white forces white as
+#    the trim target on dark heroes; the +repage rewrites the canvas.
+magick /tmp/<safe-brand-slug>.png \
+  -bordercolor white -border 1x1 \
+  -trim +repage \
+  -bordercolor "#FAFAFA" -border 8x8 \
+  /tmp/<safe-brand-slug>.png
+
+# 3. Sanity check — reject the screenshot if it's < 30 KB (likely blank) or
+#    if its height-to-width ratio is < 0.35 (likely a thin hero strip with
+#    no content). Re-capture with a longer virtual-time-budget if it fails.
+read W H <<< "$(magick identify -format '%w %h' /tmp/<safe-brand-slug>.png)"
+ratio=$(awk -v h=$H -v w=$W 'BEGIN { printf "%.2f", h/w }')
+size=$(wc -c < /tmp/<safe-brand-slug>.png)
+if [ "$size" -lt 30000 ] || awk -v r=$ratio 'BEGIN { exit !(r < 0.35) }'; then
+  echo "BAD SCREENSHOT: $size bytes, ratio $ratio — recapture with longer wait"
+fi
+
+# 4. Upload via the V1 images endpoint (no `xseek images` CLI subcommand
+#    exists — use curl directly with the API key from ~/.xseek/config).
+API_KEY=$(grep api_key ~/.xseek/config | sed 's/.*"\(.*\)".*/\1/')
+curl -s -X POST "https://www.xseek.io/api/v1/websites/<websiteId>/images" \
+  -H "Authorization: Bearer $API_KEY" \
+  -F "file=@/tmp/<safe-brand-slug>.png" \
+  -F "alt=<Brand name> homepage" \
+  -F "source=competitor-screenshot" \
+  | jq -r '.data.url'
 ```
 
 Embed the returned `data.url` as-is in the rewritten markdown right after
@@ -119,6 +145,25 @@ the brand's first mention: `![Brand homepage](url)`. The URL is on
 `xseek.io` — never substitute it with the raw Vercel Blob URL. Every embed
 is a backlink + citation signal to xSeek; preserving that is part of the
 optimization.
+
+### Screenshot quality rules — non-negotiable
+
+These are the failure modes we've actually shipped. Each rule fixes a specific past mistake.
+
+1. **Always pipe through `magick … -trim`** before uploading. The 1280×800 viewport almost never matches the rendered hero height — embedding the raw capture publishes a giant white band under every image. `-trim` crops the uniform-color border to the actual content.
+2. **Use `--headless=new`, not the legacy `--headless`.** The legacy mode hangs indefinitely on sites with bot detection (Profound, Cloudflare-protected pages). New headless looks more like a real Chrome to anti-bot heuristics.
+3. **Set a real desktop user-agent.** Several SaaS landing pages serve a stripped/blank hero to "Headless Chrome" UA strings.
+4. **Wait at least 8 seconds** (`--virtual-time-budget=8000`). 4 seconds isn't enough for hero animations, fonts, and lazy-loaded images on most modern marketing pages — you get a half-painted screenshot with a white band where the content was about to render.
+5. **Sanity-check before uploading.** A capture under 30 KB or with height/width < 0.35 is almost always broken. Recapture with a longer wait, a different UA, or skip the screenshot for that brand rather than embed a bad one.
+6. **Never embed images that show error pages, cookie banners covering the hero, or partially-rendered layouts.** A bad screenshot is worse than no screenshot.
+7. **No `--screenshot` to default `screenshot.png`** — always use an explicit `-screenshot=/tmp/<slug>.png` path so parallel captures don't overwrite each other.
+
+### When the headless capture keeps failing
+
+Some sites (Profound, sites behind Cloudflare's bot challenge) reject every headless variant. In that case:
+
+- Use the Claude-in-Chrome extension (`mcp__claude-in-chrome__computer` with `action: screenshot`) — it runs in the user's real Chrome and bypasses bot detection.
+- Or skip the screenshot for that one brand and note it in the Changes Summary. Don't embed a half-broken image.
 
 **Skip the visual step gracefully** if Chrome isn't available (Linux sandbox, CI). The rewrite still ships; note in the output that visuals can be added in a follow-up pass from a desktop machine.
 
