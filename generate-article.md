@@ -96,6 +96,12 @@ This returns search volume, keyword difficulty, and related keywords from Google
    - Weave medium-tail keywords naturally into the body
    - Avoid keywords with KD > 80 as primary targets unless the site has strong domain authority
 
+**CRITICAL — `--keyword-term` MUST come from this research output, not from your imagination, the article title, or the opportunity query.**
+
+When you push the article in Phase 4, the `--keyword-term` flag must be the exact string of one of the keywords returned by `xseek keywords` above (with a non-zero search volume). Picking a phrase off the title or slug ("which tool best", "tool best optimization") leaves the article linked to a keyword with no volume data, which displays as a broken Target Keywords card on the dashboard.
+
+The right keyword is the one with the highest search volume that semantically matches the article's primary intent. Copy its `keyword` field verbatim. If multiple are tied, prefer the one with lower KD.
+
 10. **Apply the brand brief** — use every section of the markdown returned by `xseek brand-context` in step 2. Treat it as a single voice spec; missing sections are fine, present sections are non-negotiable.
    - **Tone** (`professional` | `conversational` | `technical` | `friendly`): set the register for the entire article.
    - **Identity → Adjectives**: every paragraph should plausibly fit these words. If the brand says "direct, warm, expert," the article cannot read as "playful, edgy, casual."
