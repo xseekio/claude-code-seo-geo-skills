@@ -2,12 +2,18 @@
 
 Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's optimized for AI citation while sounding unmistakably human.
 
-**Usage:** `/rewrite-page https://example.com/blog/my-article`
+**Usage:**
+- New rewrite: `/rewrite-page https://example.com/blog/my-article`
+- Update existing Content Studio article: `/rewrite-page https://example.com/blog/my-article articleId="abc-123"`
+
+When `articleId="..."` is provided (the xSeek Desktop content_refresh deep-link sets this automatically), PATCH the existing article at the end instead of POSTing a new draft. This preserves the slug, publish state, comment threads, and keeps the URL stable.
 
 
 ## Steps
 
 0. **If no URL was passed as the argument** (the user ran `/rewrite-page` with nothing after it), stop and ask: *"Which page do you want me to rewrite? Paste the full URL (e.g. `https://example.com/blog/my-article`)."* Do NOT pick a URL yourself or assume context. Wait for the answer before proceeding to step 1.
+
+   Parse `articleId="..."` if present in the args — keep the value for the final push step.
 
 1. Run `xseek websites --format json` to find the websiteId matching the URL domain.
 
@@ -184,6 +190,47 @@ Some sites (Profound, sites behind Cloudflare's bot challenge) reject every head
 ### Schema Markup
 - Recommend specific schema types: FAQPage, HowTo, Article, or BreadcrumbList
 - Provide the FAQ content in a format ready for schema implementation
+
+---
+
+## Push to Content Studio
+
+After producing the rewrite, push it to Content Studio so the user can review/publish from the dashboard. The path branches on whether `articleId="..."` was passed in the args:
+
+**If `articleId="..."` was passed** (the desktop app sets this when the page already maps to an existing copilot_articles row — content_refresh flow):
+
+```sh
+# Write the rewrite body to a temp file (body only — no front-matter, no
+# leading H1, no metadata block).
+cat > /tmp/article.md << 'ARTICLE'
+[Article BODY only — first prose paragraph, then H2/H3 sections, FAQ, etc.
+ NO title, NO metadata block, NO leading `---`.]
+ARTICLE
+
+xseek articles update <website> <articleId> \
+  --file /tmp/article.md \
+  --title "[H1 title]" \
+  --meta-description "[meta description]" \
+  --status draft \
+  --format json
+```
+
+This PATCHes the existing article — slug, publish state, comment threads, and the article's URL all stay stable. The dashboard surfaces the change as a new revision the user can review against the previous version.
+
+**If no `articleId` was passed** (manual usage on a page that's not yet managed by xSeek):
+
+```sh
+xseek articles push <website> \
+  --title "[H1 title]" \
+  --meta-description "[meta description]" \
+  --status draft \
+  --file /tmp/article.md \
+  --format json
+```
+
+This creates a new draft article in Content Studio. The user can then review and publish from the dashboard.
+
+If the push fails (auth error, network, etc.), display the error and output the article markdown directly so the user doesn't lose the work.
 
 ---
 

@@ -28,7 +28,7 @@ SKILLS=(
   "geo-methods|Princeton GEO optimization methods (KDD 2024) with examples and domain tips. Reference material — read by other skills, not invoked directly.||"
   "optimize-page|AI visibility optimization for a single URL using xSeek data. Compares GSC vs LLM queries, checks AI citations, outputs rewrite recommendations.|<url>|"
   "publish-articles|Publish ready articles from xSeek Content Studio to your website. Run when articles are reviewed and ready to go live.|[article title]|"
-  "rewrite-page|Full AI-optimized rewrite of a page applying Princeton GEO methods. Pulls xSeek visibility gaps + outputs publish-ready markdown.|<url>|writing-rules geo-methods"
+  "rewrite-page|Full AI-optimized rewrite of a page applying Princeton GEO methods. Pulls xSeek visibility gaps + outputs publish-ready markdown. Pass articleId=\"...\" to PATCH an existing Content Studio article instead of creating a new draft.|<url> [articleId=\"...\"]|writing-rules geo-methods"
   "schedule-content-batch|Schedule a monthly batch of articles from the xSeek action plan — picks top opportunities and queues article-generation routines across the month.|[website count cadence]|"
   "track-visibility|AI visibility snapshot from xSeek — leaderboard, top cited pages, prompt coverage, AI bot activity. Run weekly to track progress.||"
   "weekly-report|Weekly AI visibility and SEO performance report from xSeek data. Run when a user asks for a status update or weekly summary.||"
