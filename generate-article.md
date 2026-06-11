@@ -28,6 +28,11 @@ The `opportunityId` is the source of truth for which opportunity this article ad
 
 3. If `opportunityId` was passed (step 0), the opportunity row is already chosen — skip this step. Otherwise: if the user provided a topic/query, find the matching opportunity. If neither, pick the highest business-value opportunity (critical > high > medium) with the most frequency.
 
+3b. **Differentiate from existing articles (MANDATORY).** The prompt may include a list titled "This website ALREADY has the following articles (title — primary keyword)". If it doesn't, fetch it yourself: `xseek articles list <website> --format json`. Then enforce all three rules for the article you're about to write:
+   - **Distinct angle**: if the opportunity overlaps an existing article's topic, narrow to a specific audience, region, use case or question none of them answers. Never write another variation of an existing piece.
+   - **Different primary keyword**: your `--keyword-term` must differ from every existing article's keywords. If your best candidate is taken, use the next-best from the research.
+   - **Varied format**: don't default to another "Top N" listicle with the same names. Rotate formats — cost guide, how-to, head-to-head comparison of two options, regional deep-dive, FAQ-led answer page — picking whichever best matches the query intent.
+
 4. Extract **target keywords** from the opportunity's SEO data:
    - `matchedKeyword`: the highest-volume Google keyword mapped to this LLM query
    - `relatedKeywords`: all extracted keywords with their monthly search volume and keyword difficulty (KD)
@@ -101,6 +106,8 @@ This returns search volume, keyword difficulty, and related keywords from Google
 When you push the article in Phase 4, the `--keyword-term` flag must be the exact string of one of the keywords returned by `xseek keywords` above (with a non-zero search volume). Picking a phrase off the title or slug ("which tool best", "tool best optimization") leaves the article linked to a keyword with no volume data, which displays as a broken Target Keywords card on the dashboard.
 
 The right keyword is the one with the highest search volume that semantically matches the article's primary intent. Copy its `keyword` field verbatim. If multiple are tied, prefer the one with lower KD.
+
+**Also pass `--keywords` with the FULL target list.** The article targets a primary keyword plus the secondary terms you placed in H2s, FAQ questions and body copy. Push them all (comma-separated, primary first, max 10) so the dashboard's Target Keywords card shows the real keyword plan instead of a single term. Same rule as `--keyword-term`: every keyword in the list must be a verbatim string from the research output (`xseek keywords`, the opportunity's `relatedKeywords`, or GSC queries) — never invented.
 
 10. **Apply the brand brief** — use every section of the markdown returned by `xseek brand-context` in step 2. Treat it as a single voice spec; missing sections are fine, present sections are non-negotiable.
    - **Tone** (`professional` | `conversational` | `technical` | `friendly`): set the register for the entire article.
@@ -283,7 +290,7 @@ ARTICLE
 # action plan so the opportunity gets marked done. Skipping it leaves the
 # opportunity hanging as "still to ship" and the dashboard will surface
 # duplicates.
-xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --opportunity-id "<uuid-from-prompt>" --file /tmp/article.md --format json
+xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --opportunity-id "<uuid-from-prompt>" --keyword-term "[primary keyword]" --keywords "[primary keyword], [secondary 1], [secondary 2], ..." --file /tmp/article.md --format json
 ```
 
 12. Confirm the article was created successfully — display the article ID and status.
