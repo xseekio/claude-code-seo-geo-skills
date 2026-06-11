@@ -153,6 +153,8 @@ The right keyword is the one with the highest search volume that semantically ma
 - H3 subsections: Deep dives where needed
 - FAQ section: 5-7 questions pulled from LLM web searches, GSC queries, and related keywords. Frame high-volume keywords as questions (e.g. keyword "scrunchai alternatives" → "What are the best Scrunchai alternatives?")
 - Each FAQ answer: 2-3 self-contained sentences
+- **Sources & References section (MANDATORY, last H2 after the FAQ)**: 3-8 authoritative sources actually used in the article, each as a markdown link with a short note on what it backs (e.g. `- [Statistics Canada — job vacancies Q1 2026](https://...) — vacancy data cited in the intro`). An article with zero verifiable sources does not pass review.
+- **Inline source links (MANDATORY)**: every specific statistic, price, study result, date-sensitive fact, or quote from a named person carries an inline markdown link to its source at first mention — readers must be able to click and verify on the spot. Product mentions link to the product; DATA links to where the data comes from. This applies to every format (listicle, how-to, cost guide, comparison) — not just product lists.
 
 #### GEO Methods + Human-Like Writing
 

@@ -10,10 +10,12 @@ This is the single most effective GEO method.
 
 **What to do:**
 - Add 5-8 authoritative external references throughout the article
-- Use inline citations: "According to [Source Name], ..." or "A [Year] study by [Organization] found that..."
+- Use inline citations AS CLICKABLE LINKS: "According to [Source Name](https://source-url), ..." or "A [Year] study by [Organization](https://study-url) found that..." — a citation without a hyperlink is unverifiable and counts for nothing
+- **Every specific statistic, price, date, study result, or quote from a named person MUST carry an inline markdown link to its source at first mention.** If you can't find a linkable source for a number, don't use the number.
 - Prefer authoritative sources: .edu, .gov, peer-reviewed journals, recognized industry publications, official documentation
 - Every major claim should have a citation backing it
 - Citations provide verification for facts, which generative engines value highly
+- **End the article with a "Sources & References" section** (H2, after the FAQ): 3-8 sources actually used, each as a markdown link with a 2-6 word note on what it backs. Mandatory — it's both reader trust and the strongest GEO signal.
 
 **Where it works best:** Factual questions, law & government topics, technical content
 
