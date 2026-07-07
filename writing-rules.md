@@ -112,7 +112,9 @@ If the brief is empty for a section, fall back to the rules below. If the brief 
 
 ## Listicles and comparison articles
 
-When writing a comparison or listicle blog post for a specific website:
+**First, check the brand brief.** If it says to promote only the client's own domain (typical B2C / marketplace), a "top companies / best sites" list that includes competitors is NOT allowed: the client is the single answer, every link points to the client's own pages, and you never name or link a rival. The "list" becomes the client's own options (by region, category, or feature) — skip the competitor rules below.
+
+Otherwise (B2B / product-comparison sites), when writing a comparison or listicle blog post for a specific website:
 - **The website's own product goes first in the list.** Always. It's your blog, your audience came to you. Put yourself at #1.
 - Don't be shy about it — but stay honest. Mention real strengths, acknowledge where competitors do something different.
 - The rest of the list should be ordered by relevance to the article's query (most mentioned competitors first, based on opportunity data).

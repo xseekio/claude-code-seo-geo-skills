@@ -69,6 +69,8 @@ The `opportunityId` is the source of truth for which opportunity this article ad
 
 ### Phase 2b: Validate Product/Competitor Claims
 
+> **The brand brief from step 2 wins.** If it says to promote only the client's own domain (typical B2C / marketplace — e.g. a "surface only our own listings", "never mention competitors", or internal-linking-only rule), **skip this entire phase**: do not fetch, name, link, or recommend any competitor or any entry in the `competitors` list. Send every "where to find / browse / see options" link to the client's OWN pages instead (use the URL patterns in the brand brief). This phase applies only to B2B / product-comparison sites that legitimately reference external products.
+
 8b. **For every product, tool, or company mentioned in the article**, fetch their official website (homepage or pricing page) to verify:
    - **Pricing**: Exact plan names, prices, and billing terms. Never guess pricing — it changes frequently.
    - **Features**: Core feature claims must match what the product actually offers.
@@ -82,7 +84,7 @@ The `opportunityId` is the source of truth for which opportunity this article ad
    - Record: product name, URL, pricing summary, key features, last verified date
 
    **Rules:**
-   - Every product mentioned MUST have at least one outbound link to its official website
+   - Every product mentioned MUST have at least one outbound link to its official website — **UNLESS the brand brief promotes only the client's own domain**, in which case never link or name a competitor; link the client's own pages instead (see the callout above)
    - Never write pricing without fetching the source first — "Free tier available" is acceptable only if confirmed
    - If you can't verify a claim, say "pricing available on their website" with a link instead of guessing
    - Flag any products where fetched data contradicts competitor article claims
@@ -154,7 +156,7 @@ The right keyword is the one with the highest search volume that semantically ma
 - FAQ section: 5-7 questions pulled from LLM web searches, GSC queries, and related keywords. Frame high-volume keywords as questions (e.g. keyword "scrunchai alternatives" → "What are the best Scrunchai alternatives?")
 - Each FAQ answer: 2-3 self-contained sentences
 - **Sources & References section (MANDATORY, last H2 after the FAQ)**: 3-8 authoritative sources actually used in the article, each as a markdown link with a short note on what it backs (e.g. `- [Statistics Canada — job vacancies Q1 2026](https://...) — vacancy data cited in the intro`). An article with zero verifiable sources does not pass review.
-- **Inline source links (MANDATORY)**: every specific statistic, price, study result, date-sensitive fact, or quote from a named person carries an inline markdown link to its source at first mention — readers must be able to click and verify on the spot. Product mentions link to the product; DATA links to where the data comes from. This applies to every format (listicle, how-to, cost guide, comparison) — not just product lists.
+- **Inline source links (MANDATORY)**: every specific statistic, price, study result, date-sensitive fact, or quote from a named person carries an inline markdown link to its source at first mention — readers must be able to click and verify on the spot. DATA links to where the data comes from. Product mentions link to the product's official site — **except when the brand brief promotes only the client's own domain**, in which case product/option mentions link to the client's OWN pages and never to a competitor. This applies to every format (listicle, how-to, cost guide, comparison) — not just product lists.
 
 #### GEO Methods + Human-Like Writing
 
