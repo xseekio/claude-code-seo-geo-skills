@@ -182,67 +182,54 @@ Read both skills in full. Every sentence must pass both the human writing check 
 - The brand has no public landing page (private SaaS, internal tools)
 - Image bandwidth is a real concern (long article, mobile-first audience)
 
-**How to capture and upload (no `xseek images` CLI subcommand exists — POST directly to the V1 images endpoint):**
+**How to capture and upload — one API call, no browser:**
 
-For each brand/product you decide to feature visually:
+xSeek captures the page for you. POST the URL and you get back a hosted image
+URL ready to embed. This works identically on your laptop and inside the hosted
+article agent, which has no browser and never will.
 
 ```sh
-# 1. Capture with headless Chrome. Use --headless=new (legacy --headless hangs
-#    on bot-protected sites like tryprofound.com). Set a real desktop UA — some
-#    SaaS sites serve a stripped/blank hero to "Headless Chrome". 8s budget gives
-#    hero animations and lazy-loaded sections time to paint.
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless=new --disable-gpu --no-sandbox \
-  --window-size=1280,800 \
-  --hide-scrollbars \
-  --virtual-time-budget=8000 \
-  --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
-  --screenshot=/tmp/<safe-brand-slug>.png \
-  "<brand-landing-url>"
-
-# 2. CRITICAL — trim white/uniform borders. The 1280×800 viewport rarely matches
-#    the actual hero height; without this step every embedded image ships with
-#    a giant white band underneath. -trim crops uniform-color borders to the
-#    real content; the 8px frame keeps a subtle padding.
-magick /tmp/<safe-brand-slug>.png \
-  -bordercolor white -border 1x1 \
-  -trim +repage \
-  -bordercolor "#FAFAFA" -border 8x8 \
-  /tmp/<safe-brand-slug>.png
-
-# 3. Sanity check. Reject and recapture if size < 30 KB (likely blank page) or
-#    height/width ratio < 0.35 (likely a thin hero strip with nothing below).
-read W H <<< "$(magick identify -format '%w %h' /tmp/<safe-brand-slug>.png)"
-ratio=$(awk -v h=$H -v w=$W 'BEGIN { printf "%.2f", h/w }')
-size=$(wc -c < /tmp/<safe-brand-slug>.png)
-if [ "$size" -lt 30000 ] || awk -v r=$ratio 'BEGIN { exit !(r < 0.35) }'; then
-  echo "BAD SCREENSHOT — recapture with longer wait or skip this brand"
-fi
-
-# 4. Upload to xSeek's V1 images endpoint. The API key sits in ~/.xseek/config.
+# The API key sits in ~/.xseek/config.
 API_KEY=$(grep api_key ~/.xseek/config | sed 's/.*"\(.*\)".*/\1/')
+
 curl -s -X POST "https://www.xseek.io/api/v1/websites/<websiteId>/images" \
   -H "Authorization: Bearer $API_KEY" \
-  -F "file=@/tmp/<safe-brand-slug>.png" \
-  -F "alt=<Brand name> homepage" \
-  -F "source=competitor-screenshot" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "url": "<brand-landing-url>",
+        "alt": "<Brand name> homepage",
+        "source": "competitor-screenshot"
+      }' \
   | jq -r '.data.url'
 ```
 
-The endpoint returns JSON `{ data: { url, ... } }` — this URL is **on `xseek.io`** (e.g.
-`https://www.xseek.io/images/abc-123/stripe-homepage.png`). Always embed the
-`data.url` value as-is. Never extract the underlying Vercel Blob URL or
-rewrite to a different host.
+The endpoint returns JSON `{ data: { url, ... } }`. That URL is **on `xseek.io`**
+(e.g. `https://www.xseek.io/images/abc-123/stripe-homepage.png`). Always embed
+`data.url` as-is. Never extract the underlying Vercel Blob URL or rewrite the
+host.
 
-**Screenshot quality rules — non-negotiable:**
+Optional fields: `"fullPage": true` for a whole-page capture (rarely right
+inline), and `"delaySeconds": 5` when a hero animates in late.
 
-1. **Always pipe through `magick … -trim`** before uploading. Past articles shipped with white bands under every image because the raw 1280×800 viewport included empty space below the hero.
-2. **Use `--headless=new`, not legacy `--headless`.** Legacy mode hangs indefinitely on Cloudflare-protected and bot-detection sites.
-3. **Set a real desktop user-agent** — several marketing pages serve blank heroes to the default Headless Chrome UA.
-4. **Wait 8 seconds minimum** (`--virtual-time-budget=8000`). 4s gets you half-painted heroes.
-5. **Sanity-check size and ratio** before uploading. A capture under 30 KB or with h/w < 0.35 is almost always broken.
-6. **Never embed cookie banners, error pages, or partially-rendered layouts.** Skip the screenshot rather than ship a bad one.
-7. **Always use an explicit `--screenshot=/tmp/<slug>.png`** path so parallel captures don't overwrite each other on the default `screenshot.png`.
+**Screenshot rules — non-negotiable:**
+
+1. **Never shell out to Chrome, Playwright or Puppeteer.** The old instructions
+   here launched `/Applications/Google Chrome.app/...`, a macOS path that only
+   ever worked on one laptop. In the hosted agent there is no browser, so every
+   generated article silently shipped with no images at all. If the API cannot
+   capture a page, skip that image and keep writing.
+2. **A 200 does not mean a usable image.** Captures come back valid, correctly
+   sized, and still ruined by an anti-bot overlay or a consent wall painted over
+   the hero. A real capture of sidekickinteractive.com returned a clean 57 KB
+   JPEG with "confirm you're not a bot" across the H1. LOOK at what came back
+   before you embed it.
+3. **Never embed cookie banners, captchas, error pages or half-painted
+   layouts.** Skip the screenshot rather than ship a bad one. A missing image
+   costs nothing; a customer's own site shown defaced costs their trust.
+4. **One capture per brand you actually name.** Do not illustrate brands the
+   article only mentions in passing.
+5. **Caption honestly.** The alt text says what the image is: a homepage
+   capture. Never describe it as anything else.
 8. **Fallback when headless keeps failing**: use the `mcp__claude-in-chrome__computer` extension (runs in the user's real Chrome and bypasses bot detection), or skip that brand and note it.
 
 **Why xseek.io URLs matter:** every published article that embeds an
