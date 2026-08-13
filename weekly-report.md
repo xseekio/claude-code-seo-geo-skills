@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Weekly Report — AI Visibility & SEO Performance
 
 Generate a weekly performance report for a website covering AI traffic trends, brand position, SEO performance, and content opportunities.
@@ -5,7 +7,6 @@ Generate a weekly performance report for a website covering AI traffic trends, b
 **Usage:**
 - `/weekly-report` — report for the default website
 - `/weekly-report <website>` — report for a specific website (domain or ID)
-
 
 ## Steps
 

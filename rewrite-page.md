@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Rewrite Page — AI-Optimized Content Rewrite
 
 Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's optimized for AI citation while sounding unmistakably human.
@@ -7,7 +9,6 @@ Fetch a page, analyze its AI visibility gaps, and produce a full rewrite that's 
 - Update existing Content Studio article: `/rewrite-page https://example.com/blog/my-article articleId="abc-123"`
 
 When `articleId="..."` is provided (the xSeek Desktop content_refresh deep-link sets this automatically), PATCH the existing article at the end instead of POSTing a new draft. This preserves the slug, publish state, comment threads, and keeps the URL stable.
-
 
 ## Steps
 
@@ -98,80 +99,30 @@ Read both skills in full. Every sentence in the rewrite must pass both the human
 
 ## Visual context (screenshots)
 
-If the original page is a listicle, comparison, "what is X" piece, or any article that names specific products / competitors / brands, the rewrite should attach real screenshots of those landing pages. Pages without images convert worse and look less authoritative — adding visuals is part of the optimization, not decoration.
+**Read the `/screenshots` skill in full before this step.** It holds the only
+screenshot rules, shared with `/generate-article`, so the two skills cannot
+drift apart again.
 
-**For each brand or product mentioned by name in the rewrite:**
+If the original page is a listicle, comparison, "what is X" piece, or any page
+that names specific products, competitors, or brands, the rewrite attaches real
+captures of those landing pages. Pages without images convert worse and look
+less authoritative. Adding visuals is part of the optimization, not decoration.
 
-```sh
-# 1. Capture the landing page (use --headless=new — old --headless hangs on
-#    sites with bot detection like tryprofound.com).
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless=new --disable-gpu --no-sandbox \
-  --window-size=1280,800 \
-  --hide-scrollbars \
-  --virtual-time-budget=8000 \
-  --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
-  --screenshot=/tmp/<safe-brand-slug>.png \
-  "<brand-landing-url>"
+What `/screenshots` requires, in short:
 
-# 2. CRITICAL — trim white/uniform borders so the embedded image doesn't have
-#    a giant white band underneath. Pages shorter than the viewport, lazy-loaded
-#    sections, and dark hero sections that fade to white all leave dead space.
-#    -trim removes uniform-color borders; -bordercolor white forces white as
-#    the trim target on dark heroes; the +repage rewrites the canvas.
-magick /tmp/<safe-brand-slug>.png \
-  -bordercolor white -border 1x1 \
-  -trim +repage \
-  -bordercolor "#FAFAFA" -border 8x8 \
-  /tmp/<safe-brand-slug>.png
+- Capture through `POST /api/v1/websites/<websiteId>/images` with a JSON `url`.
+  Never launch Chrome, Playwright, or `magick`. This skill used to tell you to
+  run `/Applications/Google Chrome.app/...` and trim with ImageMagick. Neither
+  exists in the hosted agent, so every rewrite generated there produced zero
+  images while appearing to succeed.
+- Count the brands the page names as entries, and attempt a capture for all of
+  them.
+- Embed the returned `www.xseek.io/images/...` URL exactly as returned, right
+  after the brand's first mention: `![Brand homepage](url)`.
+- Send the `visuals` coverage record when you PATCH the article, with a row for
+  every named brand including the ones you could not capture and why.
 
-# 3. Sanity check — reject the screenshot if it's < 30 KB (likely blank) or
-#    if its height-to-width ratio is < 0.35 (likely a thin hero strip with
-#    no content). Re-capture with a longer virtual-time-budget if it fails.
-read W H <<< "$(magick identify -format '%w %h' /tmp/<safe-brand-slug>.png)"
-ratio=$(awk -v h=$H -v w=$W 'BEGIN { printf "%.2f", h/w }')
-size=$(wc -c < /tmp/<safe-brand-slug>.png)
-if [ "$size" -lt 30000 ] || awk -v r=$ratio 'BEGIN { exit !(r < 0.35) }'; then
-  echo "BAD SCREENSHOT: $size bytes, ratio $ratio — recapture with longer wait"
-fi
-
-# 4. Upload via the V1 images endpoint (no `xseek images` CLI subcommand
-#    exists — use curl directly with the API key from ~/.xseek/config).
-API_KEY=$(grep api_key ~/.xseek/config | sed 's/.*"\(.*\)".*/\1/')
-curl -s -X POST "https://www.xseek.io/api/v1/websites/<websiteId>/images" \
-  -H "Authorization: Bearer $API_KEY" \
-  -F "file=@/tmp/<safe-brand-slug>.png" \
-  -F "alt=<Brand name> homepage" \
-  -F "source=competitor-screenshot" \
-  | jq -r '.data.url'
-```
-
-Embed the returned `data.url` as-is in the rewritten markdown right after
-the brand's first mention: `![Brand homepage](url)`. The URL is on
-`xseek.io` — never substitute it with the raw Vercel Blob URL. Every embed
-is a backlink + citation signal to xSeek; preserving that is part of the
-optimization.
-
-### Screenshot quality rules — non-negotiable
-
-These are the failure modes we've actually shipped. Each rule fixes a specific past mistake.
-
-1. **Always pipe through `magick … -trim`** before uploading. The 1280×800 viewport almost never matches the rendered hero height — embedding the raw capture publishes a giant white band under every image. `-trim` crops the uniform-color border to the actual content.
-2. **Use `--headless=new`, not the legacy `--headless`.** The legacy mode hangs indefinitely on sites with bot detection (Profound, Cloudflare-protected pages). New headless looks more like a real Chrome to anti-bot heuristics.
-3. **Set a real desktop user-agent.** Several SaaS landing pages serve a stripped/blank hero to "Headless Chrome" UA strings.
-4. **Wait at least 8 seconds** (`--virtual-time-budget=8000`). 4 seconds isn't enough for hero animations, fonts, and lazy-loaded images on most modern marketing pages — you get a half-painted screenshot with a white band where the content was about to render.
-5. **Sanity-check before uploading.** A capture under 30 KB or with height/width < 0.35 is almost always broken. Recapture with a longer wait, a different UA, or skip the screenshot for that brand rather than embed a bad one.
-6. **Never embed images that show error pages, cookie banners covering the hero, or partially-rendered layouts.** A bad screenshot is worse than no screenshot.
-7. **No `--screenshot` to default `screenshot.png`** — always use an explicit `-screenshot=/tmp/<slug>.png` path so parallel captures don't overwrite each other.
-
-### When the headless capture keeps failing
-
-Some sites (Profound, sites behind Cloudflare's bot challenge) reject every headless variant. In that case:
-
-- Use the Claude-in-Chrome extension (`mcp__claude-in-chrome__computer` with `action: screenshot`) — it runs in the user's real Chrome and bypasses bot detection.
-- Or skip the screenshot for that one brand and note it in the Changes Summary. Don't embed a half-broken image.
-
-**Skip the visual step gracefully** if Chrome isn't available (Linux sandbox, CI). The rewrite still ships; note in the output that visuals can be added in a follow-up pass from a desktop machine.
+Note in the Changes Summary how many brands were captured out of how many named.
 
 **No AI-generated images** for now — only real screenshots of public pages.
 
@@ -207,11 +158,21 @@ cat > /tmp/article.md << 'ARTICLE'
  NO title, NO metadata block, NO leading `---`.]
 ARTICLE
 
+# Screenshot coverage: ONE entry per brand the page names as an entry,
+# including every brand with no capture and the reason. See /screenshots.
+cat > /tmp/visuals.json << 'VISUALS'
+[
+  { "name": "Brand A", "url": "https://brand-a.com", "screenshot": "https://www.xseek.io/images/<id>/brand-a-homepage.jpg" },
+  { "name": "Brand B", "url": "https://brand-b.com", "screenshot": null, "skipReason": "captcha covering the hero" }
+]
+VISUALS
+
 xseek articles update <website> <articleId> \
   --file /tmp/article.md \
   --title "[H1 title]" \
   --meta-description "[meta description]" \
   --status draft \
+  --visuals /tmp/visuals.json \
   --format json
 ```
 
@@ -225,6 +186,7 @@ xseek articles push <website> \
   --meta-description "[meta description]" \
   --status draft \
   --file /tmp/article.md \
+  --visuals /tmp/visuals.json \
   --format json
 ```
 

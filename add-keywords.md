@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Add Keywords — Enrich an Article with SEO Keywords
 
 Take an existing article (from Content Studio or a URL) and enrich it with relevant SEO keywords using real Google search data. Keywords are woven naturally into headings, body text, and FAQ sections without changing the article's meaning or tone.

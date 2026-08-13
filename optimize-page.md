@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Optimize Page — AI Visibility Optimization for a Specific URL
 
 Analyze a single page and produce specific rewrite recommendations to improve its AI visibility.
@@ -52,7 +54,6 @@ When writing rewrite recommendations, evaluate the page against these methods an
 **Google AI Overview:** E-E-A-T signals critical. Structured data required. Authoritative citations boost visibility +132%.
 
 **Microsoft Copilot:** Requires Bing indexing. Microsoft ecosystem presence helps (LinkedIn, GitHub). Page speed < 2 seconds.
-
 
 ## Steps
 

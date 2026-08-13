@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Apply Comments — Review and Apply Comments on Articles
 
 Fetch unresolved comments on an article, apply the requested changes to the content, and resolve the comments.

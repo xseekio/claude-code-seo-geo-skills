@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # GEO Optimization Methods (Princeton Research, KDD 2024)
 
 These 9 methods are ranked by their proven impact on AI citation visibility. Apply ALL of them when writing or rewriting content. Combining methods produces better results — the best combination is **Fluency + Statistics (+35.8% improvement)**.

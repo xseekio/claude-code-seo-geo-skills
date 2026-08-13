@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Fact-Check — Validate Pricing, Features, and Claims in an Article
 
 Scan an article for every product, company, or competitor mentioned. Fetch their official websites to verify pricing, features, and claims. Flag anything outdated, wrong, or unverifiable.

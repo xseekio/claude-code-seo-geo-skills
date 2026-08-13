@@ -24,15 +24,16 @@ SKILLS=(
   "apply-comments|Apply unresolved comments on an xSeek Content Studio article — read comments, apply changes, resolve them.|[articleId]|"
   "fact-check|Verify pricing, features, and claims in an xSeek Content Studio article against official sources before publishing.|[url or articleId]|"
   "find-opportunities|Content gap finder for AI search using xSeek opportunities data. Surfaces topics where competitors get cited by AI but you don't.||"
-  "generate-article|Generate an AI-optimized article from xSeek content gap data and push it to Content Studio. Beats top competitor articles AI currently cites.|[topic]|writing-rules geo-methods"
+  "generate-article|Generate an AI-optimized article from xSeek content gap data and push it to Content Studio. Beats top competitor articles AI currently cites.|[topic]|writing-rules geo-methods screenshots"
   "geo-methods|Princeton GEO optimization methods (KDD 2024) with examples and domain tips. Reference material — read by other skills, not invoked directly.||"
   "optimize-page|AI visibility optimization for a single URL using xSeek data. Compares GSC vs LLM queries, checks AI citations, outputs rewrite recommendations.|<url>|"
   "publish-articles|Publish ready articles from xSeek Content Studio to your website. Run when articles are reviewed and ready to go live.|[article title]|"
-  "rewrite-page|Full AI-optimized rewrite of a page applying Princeton GEO methods. Pulls xSeek visibility gaps + outputs publish-ready markdown. Pass articleId=\"...\" to PATCH an existing Content Studio article instead of creating a new draft.|<url> [articleId=\"...\"]|writing-rules geo-methods"
+  "rewrite-page|Full AI-optimized rewrite of a page applying Princeton GEO methods. Pulls xSeek visibility gaps + outputs publish-ready markdown. Pass articleId=\"...\" to PATCH an existing Content Studio article instead of creating a new draft.|<url> [articleId=\"...\"]|writing-rules geo-methods screenshots"
   "schedule-content-batch|Schedule a monthly batch of articles from the xSeek action plan — picks top opportunities and queues article-generation routines across the month.|[website count cadence]|"
   "track-visibility|AI visibility snapshot from xSeek — leaderboard, top cited pages, prompt coverage, AI bot activity. Run weekly to track progress.||"
   "weekly-report|Weekly AI visibility and SEO performance report from xSeek data. Run when a user asks for a status update or weekly summary.||"
   "writing-rules|Human-like writing rules for AI content generation. Reference material — read by other skills, not invoked directly.||"
+  "screenshots|How to capture landing pages through the xSeek images API and report screenshot coverage. Reference material — read by other skills, not invoked directly.||"
 )
 
 # USAGE.md template — one shared file per skill explaining the xSeek dep.

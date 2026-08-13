@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Generate Article — AI-Optimized Article from Opportunity Data
 
 Generate a new article targeting a content gap where your site isn't cited by AI. Analyzes the top-ranking competitor articles that ARE getting cited, studies their structure and content patterns, and writes something better.
@@ -7,7 +9,6 @@ Generate a new article targeting a content gap where your site isn't cited by AI
 - `/generate-article <topic or query>` — targets a specific topic
 
 The article is pushed to Content Studio as a **draft** via `xseek articles push`. The user can review it in the dashboard, then mark it as ready or published when they're satisfied.
-
 
 ## Steps
 
@@ -167,90 +168,21 @@ The right keyword is the one with the highest search volume that semantically ma
 
 Read both skills in full. Every sentence must pass both the human writing check and the GEO optimization check.
 
-#### Phase 3b: Add visual context (screenshots of competitor landing pages)
+#### Phase 3b: Add visual context (screenshots)
 
-**Articles without images convert worse and look less authoritative.** For listicles, comparisons, and any article where you mention a specific product, brand, or competitor by name, attach a real screenshot of that brand's landing page or product page so the reader instantly knows what's being talked about. This is not decoration — it's a comprehension aid.
+**Read the `/screenshots` skill in full before this phase.** It holds the only
+screenshot rules: how to capture through the xSeek images API (never a browser),
+which brands must be attempted, what counts as an unusable capture, and the
+`visuals` coverage record you send with the article.
 
-**When to add an image (use judgment, don't force it):**
-- Listicle entries — every numbered/listed product or competitor gets a homepage screenshot near its mention
-- Side-by-side comparisons — both products' hero sections
-- A "what does X look like" question in an FAQ — a screenshot of X
-- The user's own brand mentioned for the first time in a self-referential article — their own hero or product page
+Two things from it that decide whether this phase passed:
 
-**Skip images when:**
-- The article is a strategic essay or opinion piece (visuals dilute the authority)
-- The brand has no public landing page (private SaaS, internal tools)
-- Image bandwidth is a real concern (long article, mobile-first audience)
-
-**How to capture and upload — one API call, no browser:**
-
-xSeek captures the page for you. POST the URL and you get back a hosted image
-URL ready to embed. This works identically on your laptop and inside the hosted
-article agent, which has no browser and never will.
-
-```sh
-# The API key sits in ~/.xseek/config.
-API_KEY=$(grep api_key ~/.xseek/config | sed 's/.*"\(.*\)".*/\1/')
-
-curl -s -X POST "https://www.xseek.io/api/v1/websites/<websiteId>/images" \
-  -H "Authorization: Bearer $API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-        "url": "<brand-landing-url>",
-        "alt": "<Brand name> homepage",
-        "source": "competitor-screenshot"
-      }' \
-  | jq -r '.data.url'
-```
-
-The endpoint returns JSON `{ data: { url, ... } }`. That URL is **on `xseek.io`**
-(e.g. `https://www.xseek.io/images/abc-123/stripe-homepage.png`). Always embed
-`data.url` as-is. Never extract the underlying Vercel Blob URL or rewrite the
-host.
-
-Optional fields: `"fullPage": true` for a whole-page capture (rarely right
-inline), and `"delaySeconds": 5` when a hero animates in late.
-
-**Screenshot rules — non-negotiable:**
-
-1. **Never shell out to Chrome, Playwright or Puppeteer.** The old instructions
-   here launched `/Applications/Google Chrome.app/...`, a macOS path that only
-   ever worked on one laptop. In the hosted agent there is no browser, so every
-   generated article silently shipped with no images at all. If the API cannot
-   capture a page, skip that image and keep writing.
-2. **A 200 does not mean a usable image.** Captures come back valid, correctly
-   sized, and still ruined by an anti-bot overlay or a consent wall painted over
-   the hero. A real capture of sidekickinteractive.com returned a clean 57 KB
-   JPEG with "confirm you're not a bot" across the H1. LOOK at what came back
-   before you embed it.
-3. **Never embed cookie banners, captchas, error pages or half-painted
-   layouts.** Skip the screenshot rather than ship a bad one. A missing image
-   costs nothing; a customer's own site shown defaced costs their trust.
-4. **One capture per brand you actually name.** Do not illustrate brands the
-   article only mentions in passing.
-5. **Caption honestly.** The alt text says what the image is: a homepage
-   capture. Never describe it as anything else.
-8. **Fallback when headless keeps failing**: use the `mcp__claude-in-chrome__computer` extension (runs in the user's real Chrome and bypasses bot detection), or skip that brand and note it.
-
-**Why xseek.io URLs matter:** every published article that embeds an
-xseek.io image URL is a structural backlink + AI-citation signal to xSeek.
-This compounds across every article we help ship. Swapping to a direct
-blob URL would break this moat.
-
-```markdown
-## 1. Stripe
-
-![Stripe homepage](https://www.xseek.io/images/abc-123/stripe-homepage.png)
-
-Stripe is the payments infrastructure...
-```
-
-**Fallback if Chrome isn't available** (Linux sandboxes, CI, etc.):
-- Skip the screenshot step rather than failing the article
-- Note in the output: "Visual placeholders skipped — re-run from the desktop to attach screenshots"
-- The article still ships; visuals get added in a refresh pass
-
-**Do not generate AI images.** Only screenshots of real, publicly accessible pages. We can revisit AI-generated visuals in a future skill update.
+1. **Count the named entries first.** Every brand, product, or company the
+   article names as an entry gets a capture attempt. All of them, not the ones
+   that felt worth it. Article length and mobile readers are not reasons to
+   skip.
+2. **Report all of them**, including the ones with no image, each with a
+   `skipReason`. An unreported skip is indistinguishable from not trying.
 
 ### Phase 4: Push to Content Studio
 
@@ -282,7 +214,16 @@ ARTICLE
 # action plan so the opportunity gets marked done. Skipping it leaves the
 # opportunity hanging as "still to ship" and the dashboard will surface
 # duplicates.
-xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --opportunity-id "<uuid-from-prompt>" --keyword-term "[primary keyword]" --keywords "[primary keyword], [secondary 1], [secondary 2], ..." --file /tmp/article.md --format json
+# Screenshot coverage: ONE entry per brand the article names as an entry,
+# including every brand with no capture and the reason. See /screenshots.
+cat > /tmp/visuals.json << 'VISUALS'
+[
+  { "name": "Brand A", "url": "https://brand-a.com", "screenshot": "https://www.xseek.io/images/<id>/brand-a-homepage.jpg" },
+  { "name": "Brand B", "url": "https://brand-b.com", "screenshot": null, "skipReason": "capture returned 502 twice" }
+]
+VISUALS
+
+xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --opportunity-id "<uuid-from-prompt>" --keyword-term "[primary keyword]" --keywords "[primary keyword], [secondary 1], [secondary 2], ..." --file /tmp/article.md --visuals /tmp/visuals.json --format json
 ```
 
 12. Confirm the article was created successfully — display the article ID and status.

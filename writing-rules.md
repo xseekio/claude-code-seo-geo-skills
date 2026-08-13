@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Human-Like Writing Rules
 
 Write like you're explaining something to someone, not like you're trying to impress them.

@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Track Visibility — AI Visibility Snapshot
 
 Generate a quick AI visibility snapshot: where you stand across AI search engines, what prompts mention you, and where you're missing citations.
@@ -9,7 +11,6 @@ Generate a quick AI visibility snapshot: where you stand across AI search engine
 - **Source citations** — URLs AI links as references
 - **AI bot crawl volume** — how actively AI models index your content
 - **Prompt coverage** — what % of relevant prompts result in your brand being mentioned
-
 
 ## Steps
 

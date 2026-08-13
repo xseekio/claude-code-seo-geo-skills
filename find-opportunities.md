@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Find Opportunities — Content Gap Finder for AI Search
 
 Discover content gaps: queries that AI models search for where you don't have content, and topics where competitors get cited but you don't.
@@ -8,7 +10,6 @@ Discover content gaps: queries that AI models search for where you don't have co
 1. **LLM search queries you don't rank for** — AI models search for these terms when answering prompts, but your content doesn't appear. Writing content targeting these queries increases your chance of being cited.
 2. **Competitor citations** — URLs from competitor domains that AI cites. If they're cited for a topic you also cover, your content may need improvement. If it's a topic you don't cover, it's a new content opportunity.
 3. **GSC queries with no AI match** — Queries you rank for on Google that AI models never search for (or vice versa). The gap reveals where traditional SEO and AI optimization diverge.
-
 
 ## Steps
 

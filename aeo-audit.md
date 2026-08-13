@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # AEO Audit — Full AI Visibility Assessment
 
 Run a comprehensive audit of a website's AI Engine Optimization (AEO) health. This pulls data from multiple sources to build a prioritized action plan.
@@ -16,7 +18,6 @@ Run a comprehensive audit of a website's AI Engine Optimization (AEO) health. Th
 - **GSC metrics**: Google Search Console data. Pages with high GSC impressions but low AI visits are optimization opportunities.
 - **LLM web searches**: The actual search queries AI models run when answering prompts. These are the keywords to target.
 - **Pages needing attention**: Pages where AI traffic dropped >20%. Urgent fixes.
-
 
 ## Steps
 

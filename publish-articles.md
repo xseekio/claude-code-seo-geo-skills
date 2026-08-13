@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Publish Articles — Publish Ready Articles to Your Website
 
 Fetch articles from Content Studio that are ready to publish, publish them to your website, and update their status in xSeek.

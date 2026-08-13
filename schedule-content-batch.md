@@ -1,3 +1,5 @@
+<!-- Generated from the xSeek app repo (skills/). Do not edit here: changes are overwritten on the next publish. -->
+
 # Schedule Content Batch — Monthly Article Pipeline From the Action Plan
 
 Pull the highest-signal opportunities from the action plan and schedule them as one-off article-generation routines spread across the month, so a steady drip of drafts lands in Content Studio without anyone having to remember to invoke `/generate-article`.
