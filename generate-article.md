@@ -10,6 +10,41 @@ Generate a new article targeting a content gap where your site isn't cited by AI
 
 The article is pushed to Content Studio as a **draft** via `xseek articles push`. The user can review it in the dashboard, then mark it as ready or published when they're satisfied.
 
+## Read `channel` FIRST: it decides what you are writing
+
+The opportunity row you fetch in Phase 1 carries a `channel`. It changes the
+artifact, not just its distribution, and everything below this line is written
+for the default. Read `channel` and `postAngle` before anything else.
+
+| `channel` | What to produce | Length |
+| --- | --- | --- |
+| `blog`, `medium_post`, or absent | the full article as described in this skill | 1500-2500 words |
+| `reddit_question` | the thread title, then one short paragraph of context | under 100 words |
+| `reddit_reply` | the reply to post inside the thread in `target` | 100-250 words |
+| `linkedin_post` | a buyer's guide, structure below | 700-1200 words |
+
+**A `reddit_question` is not an article.** The action is to ask something and let
+other people answer. Produce the title and the context paragraph, nothing else.
+No comparison table, no FAQ, no screenshots, no Sources section, no link, and no
+mention of the client's product: a question that advertises is removed. If
+`postAngle` states the question, use it.
+
+**A `reddit_reply` answers the thread in `target`.** Open that URL first and
+answer what was actually asked. Disclose the affiliation in the first line ("I
+work at X, so discount me accordingly"). Name the competitors that win the cases
+we lose, and say plainly where our limit is. No link: if the reply is only
+useful after a click, it is an ad and it gets removed. Never draft a reply meant
+to be posted by a brand account.
+
+**A `linkedin_post` is a buyer's guide, not an essay.** The cited shape is:
+the question as the title, the direct answer in the first 60 words, the criteria
+to judge on, ranked options with competitors named, a "pick X if / pick Y if"
+section, and a short FAQ. Bullets and headings throughout. A personal story with
+a lesson at the end is the format that does NOT get cited.
+
+Everything after this section, including screenshots, the FAQ and the Sources
+block, applies to the article channels. Do not bolt it onto a Reddit card.
+
 ## Steps
 
 ### Phase 1: Find the Right Opportunity
