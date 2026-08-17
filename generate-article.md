@@ -168,6 +168,41 @@ The right keyword is the one with the highest search volume that semantically ma
 
 Read both skills in full. Every sentence must pass both the human writing check and the GEO optimization check.
 
+#### The four title/description fields
+
+An article carries FOUR of these, not two, and they serve two different
+audiences. Writing one and copying it into the others wastes three of them.
+
+| Field | Where it appears | Who reads it | Limit |
+| --- | --- | --- | --- |
+| `--title` | the H1 on the page | someone already reading | free |
+| `--description` | the lede under the H1, and index cards | someone already reading | 1-2 sentences |
+| `--meta-title` | the `<title>` tag, browser tab, search result | someone deciding whether to click, or an engine deciding whether to cite | 60 chars |
+| `--meta-description` | the search-result snippet | same | 155 chars |
+
+Rules that make them different rather than four spellings of one line:
+
+1. **All four carry the primary keyword.** That is the only thing they share.
+2. **The meta title is a REWRITE of the H1, never a copy.** If they are
+   identical, the tag is dead weight. The H1 can be curiosity-driven because
+   the reader is already there. The meta title has to earn a click against
+   nine other results, so it front-loads the keyword and states the payoff.
+3. **The lede continues the H1. The meta description does not.** The lede
+   assumes the title was just read. The meta description is read alone, in a
+   list, so it must stand up with no context.
+4. **The meta description promises, it does not summarize.** "This guide
+   covers X, Y and Z" describes the article. "Get X in under an hour, with the
+   three checks most teams skip" tells the reader what they leave with.
+5. **Respect the limits.** Past 60 and 155 characters they are truncated
+   mid-word in the result, which reads as carelessness on your page.
+
+Example, same article, four fields:
+
+- title: `Couvreur certifie GAF a Montreal : ce que ca change pour vous`
+- description: `Comprendre ce que la certification protege concretement, comment la verifier, et les questions a poser avant de signer.`
+- meta-title: `Couvreur certifie GAF Montreal : garanties et verification`
+- meta-description: `Ce que la certification GAF Master Contractor couvre vraiment, comment verifier un couvreur en 2 minutes, et les 5 questions a poser avant de signer.`
+
 #### Phase 3b: Add visual context (screenshots)
 
 **Read the `/screenshots` skill in full before this phase.** It holds the only
@@ -223,7 +258,7 @@ cat > /tmp/visuals.json << 'VISUALS'
 ]
 VISUALS
 
-xseek articles push <website> --title "[H1 title]" --meta-description "[meta description]" --status draft --opportunity-id "<uuid-from-prompt>" --keyword-term "[primary keyword]" --keywords "[primary keyword], [secondary 1], [secondary 2], ..." --file /tmp/article.md --visuals /tmp/visuals.json --format json
+xseek articles push <website> --title "[H1 title]" --description "[lede, 1-2 sentences]" --meta-title "[<=60 chars]" --meta-description "[<=155 chars]" --status draft --opportunity-id "<uuid-from-prompt>" --keyword-term "[primary keyword]" --keywords "[primary keyword], [secondary 1], [secondary 2], ..." --file /tmp/article.md --visuals /tmp/visuals.json --format json
 ```
 
 12. Confirm the article was created successfully — display the article ID and status.
@@ -237,7 +272,9 @@ xseek articles push <website> --title "[H1 title]" --meta-description "[meta des
 ```markdown
 # [H1 Title — under 60 characters]
 
-**Meta description:** [under 155 characters, includes primary query and top related keyword]
+**Description (lede):** [1-2 sentences, shown under the H1]
+**Meta title:** [under 60 characters, a rewrite of the H1, not a copy]
+**Meta description:** [under 155 characters, a promise, includes the primary query]
 **Target queries:** [primary LLM query + 3-5 secondary queries]
 **Target keywords:** [top 5-10 related keywords from opportunity SEO data, ranked by search volume]
 **Recommended schema:** FAQPage, Article
