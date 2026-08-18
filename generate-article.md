@@ -195,6 +195,51 @@ The right keyword is the one with the highest search volume that semantically ma
 - **Sources & References section (MANDATORY, last H2 after the FAQ)**: 3-8 authoritative sources actually used in the article, each as a markdown link with a short note on what it backs (e.g. `- [Statistics Canada — job vacancies Q1 2026](https://...) — vacancy data cited in the intro`). An article with zero verifiable sources does not pass review.
 - **Inline source links (MANDATORY)**: every specific statistic, price, study result, date-sensitive fact, or quote from a named person carries an inline markdown link to its source at first mention — readers must be able to click and verify on the spot. DATA links to where the data comes from. Product mentions link to the product's official site — **except when the brand brief promotes only the client's own domain**, in which case product/option mentions link to the client's OWN pages and never to a competitor. This applies to every format (listicle, how-to, cost guide, comparison) — not just product lists.
 
+#### Record every price and sourced statistic in `--claims`
+
+A generated draft priced xSeek's own Starter plan at $49/mo when it is $249.99,
+and credited "61% of B2B buyers now start purchase research in AI" to Gartner
+with no link. Neither is visible by reading the article: a confident invented
+number reads exactly like a checked one.
+
+So write `/tmp/claims.json` alongside the article, with **one entry per price
+and per statistic the article states**, including the ones you could not verify:
+
+```json
+[
+  { "type": "price", "text": "xSeek Growth $499.99/mo",
+    "source": "https://www.xseek.io/pricing" },
+  { "type": "price", "text": "Otterly.AI from $29/mo",
+    "source": "https://otterly.ai/pricing" },
+  { "type": "stat", "text": "61% of B2B buyers start research in AI",
+    "source": null, "attributedTo": "Gartner",
+    "reason": "could not find the study, removed from the article" }
+]
+```
+
+Then pass it: `xseek articles push … --claims /tmp/claims.json`
+
+Rules:
+
+1. **A price you did not open the pricing page for does not go in the article.**
+   Phase 2b exists for this. Not "approximately", not "starting around": leave
+   the price out entirely and say the vendor does not publish it.
+2. **A statistic credited to a named organisation needs a link to that
+   organisation.** Crediting an unsourced number to Gartner or Forrester by
+   name is the costliest sentence you can write, because it is checkable and
+   wrong. If you cannot find the source, cut the sentence.
+3. **`source` is a URL or it is null.** Writing "their pricing page" in the
+   source field records a check that never happened; it is stored as unverified
+   with your text kept as the reason.
+4. Report the ones you dropped too, with a `reason`. An unreported omission is
+   indistinguishable from work never attempted.
+
+The response echoes `data.claimCoverage` as
+`{ stated, verified, unverified, unsourcedAttributions }`. Read it. Anything
+above zero in `unsourcedAttributions` means a named organisation is being
+credited for a number with no link, and that has to be fixed before the article
+is worth publishing.
+
 #### Listicle entries: the three fields that decide citation
 
 When the article ranks products, tools or options, EVERY entry carries the same
@@ -340,7 +385,7 @@ cat > /tmp/visuals.json << 'VISUALS'
 ]
 VISUALS
 
-xseek articles push <website> --title "[H1 title]" --description "[lede, 1-2 sentences]" --meta-title "[<=60 chars]" --meta-description "[<=155 chars]" --status draft --opportunity-id "<uuid-from-prompt>" --keyword-term "[primary keyword]" --keywords "[primary keyword], [secondary 1], [secondary 2], ..." --file /tmp/article.md --visuals /tmp/visuals.json --format json
+xseek articles push <website> --title "[H1 title]" --description "[lede, 1-2 sentences]" --meta-title "[<=60 chars]" --meta-description "[<=155 chars]" --status draft --opportunity-id "<uuid-from-prompt>" --keyword-term "[primary keyword]" --keywords "[primary keyword], [secondary 1], [secondary 2], ..." --file /tmp/article.md --visuals /tmp/visuals.json --claims /tmp/claims.json --format json
 ```
 
 12. Confirm the article was created successfully — display the article ID and status.
