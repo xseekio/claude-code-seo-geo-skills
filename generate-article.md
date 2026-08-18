@@ -195,6 +195,53 @@ The right keyword is the one with the highest search volume that semantically ma
 - **Sources & References section (MANDATORY, last H2 after the FAQ)**: 3-8 authoritative sources actually used in the article, each as a markdown link with a short note on what it backs (e.g. `- [Statistics Canada — job vacancies Q1 2026](https://...) — vacancy data cited in the intro`). An article with zero verifiable sources does not pass review.
 - **Inline source links (MANDATORY)**: every specific statistic, price, study result, date-sensitive fact, or quote from a named person carries an inline markdown link to its source at first mention — readers must be able to click and verify on the spot. DATA links to where the data comes from. Product mentions link to the product's official site — **except when the brand brief promotes only the client's own domain**, in which case product/option mentions link to the client's OWN pages and never to a competitor. This applies to every format (listicle, how-to, cost guide, comparison) — not just product lists.
 
+#### Listicle entries: the three fields that decide citation
+
+When the article ranks products, tools or options, EVERY entry carries the same
+three fields. Not most of them: all, or none. An article where two of six
+entries have a "Best for" reads as a hierarchy the writer abandoned halfway.
+
+```markdown
+### 3. Otterly.AI — Budget monitoring across four engines
+
+[Otterly.AI](https://otterly.ai) tracks brand mentions on ChatGPT, AI Overviews,
+Perplexity and Copilot, and starts at [$29/mo](https://otterly.ai/pricing), the
+cheapest entry point in this list. It is a watcher: it tells you where you
+stand and leaves the fixing to you.
+
+- Prompt tracking across 4 engines on the base plan
+- Share-of-voice against named competitors
+- Weekly email digest, no seat limits
+
+**Pricing:** $29/mo base, $189/mo for the agency tier. No free plan.
+**Best for:** small teams that want to know whether they are being mentioned
+before committing budget to changing it.
+**Limitation:** no content generation and no recommendations, so the output is
+a number, not a next step. Teams already sure of what to write get more from it
+than teams asking what to write.
+```
+
+Why these three, measured on this site's own articles. The five xSeek articles
+that actually earn citations carry `Best for` 7.2 times each and `Limitation`
+2.8 times; the other 290 articles carry them 1.6 and 0.4. `Limitation` is the
+single most discriminating field in the whole corpus, at roughly seven times the
+rate.
+
+Each maps to a Princeton method with a measured lift:
+
+| Field | Method | Lift |
+| --- | --- | --- |
+| Inline link on first mention and on every price | Cite Sources | +40% |
+| Concrete pricing numbers, never "starting at" alone | Statistics | +37% |
+| A named customer or analyst quote where you have one | Quotation | +30% |
+| `Limitation` | Authoritative Tone | +25% |
+| `Best for` | decision guidance, present in a third of cited content | |
+
+**`Limitation` is not modesty, it is the authority signal.** Saying plainly
+where a competitor beats us is what separates a comparison from a brochure, and
+it is the field the engines reward most. Write the real limit, including the
+cases where the reader should pick someone else.
+
 #### GEO Methods + Human-Like Writing
 
 **Before writing, read the full content of these two skills (installed via `xseek init`):**
